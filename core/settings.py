@@ -5,7 +5,6 @@ from types import MappingProxyType
 from typing import Tuple, List, Callable, Any
 
 from corsheaders.defaults import default_methods, default_headers
-from environ import Env
 
 from .helpers import (
     DEFAULT_APPS, DEFAULT_LOCALE_PATHS, DEFAULT_LANGUAGES,
@@ -14,12 +13,10 @@ from .helpers import (
 )
 
 BASE_DIR: str = dirname(dirname(abspath(__file__)))
-# Environment variables
-env: Env = Env()
-Env.read_env()
+
 # Django
-DEBUG: bool = env.bool(var='DEBUG')
-SECRET_KEY: str = env.str(var='SECRET_KEY')
+DEBUG: bool = True
+SECRET_KEY: str = 'B81543719AB276D3268D4A293FC2A492E2B4996CCE2D6624B529351A26'
 APPEND_SLASH: bool = True
 ALLOWED_HOSTS: Tuple = ('*',)
 INSTALLED_APPS: Tuple = DEFAULT_APPS
@@ -50,7 +47,7 @@ LANGUAGES: Tuple = DEFAULT_LANGUAGES
 LANGUAGE_CODE: str = 'en'
 USE_I18N: bool = True
 USE_L10N: bool = True
-TIME_ZONE: str = env.str(var='TIME_ZONE')
+TIME_ZONE: str = 'Asia/Almaty'
 USE_TZ: bool = True
 STATIC_URL: str = '/static/'
 STATIC_ROOT: str = join(BASE_DIR, 'staticfiles')
@@ -65,27 +62,5 @@ CORS_ALLOW_CREDENTIALS: bool = True
 REST_FRAMEWORK: MappingProxyType = REST_FRAMEWORK_SETTINGS
 # Storage
 DEFAULT_FILE_STORAGE: str = STORAGES.get(
-    env.str(var='WHERE_TO_KEEP_MEDIA'), DEFAULT_STORAGE
+    'LOCAL', DEFAULT_STORAGE
 )
-# Celery
-CELERY_BROKER_URL: str = env.str(var='CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND: str = env.str(var='CELERY_RESULT_BACKEND')
-CELERY_TIMEZONE: str = env.str(var='CELERY_TIMEZONE')
-CELERY_ENABLE_UTC: bool = True
-CELERY_ACCEPT_CONTENT: Tuple = ('application/json',)
-CELERY_TASK_SERIALIZER: str = 'json'
-CELERY_RESULT_SERIALIZER: str = 'json'
-CELERY_TASK_ACKS_LATE: bool = True
-# Silk
-SILKY_PYTHON_PROFILER: bool = True
-SILKY_META: bool = True
-SILKY_INTERCEPT_PERCENT: int = env.int(var='SILKY_INTERCEPT_PERCENT')
-SILKY_MAX_RECORDED_REQUESTS: int = 8192
-SILKY_AUTHENTICATION: bool = True
-SILKY_AUTHORISATION: bool = True
-SILKY_PERMISSIONS: Callable[[Any], Any] = lambda user: user.is_superuser
-# Centrifugo
-CENTRIFUGO_URL = env.str(var='CENTRIFUGO_URL')
-CENTRIFUGO_API_KEY = env.str(var='CENTRIFUGO_API_KEY')
-CENTRIFUGO_SECRET = env.str(var='CENTRIFUGO_SECRET')
-CENTRIFUGO_NAMESPACE = env.str(var='CENTRIFUGO_NAMESPACE')
