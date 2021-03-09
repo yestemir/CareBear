@@ -2,13 +2,10 @@
 import os
 from os.path import dirname, abspath, join
 from types import MappingProxyType
-from typing import Tuple, Dict, List, Callable, Any
+from typing import Tuple, List, Callable, Any
 
-import sentry_sdk
 from corsheaders.defaults import default_methods, default_headers
 from environ import Env
-from sentry_sdk.integrations.celery import CeleryIntegration
-from sentry_sdk.integrations.django import DjangoIntegration
 
 from .helpers import (
     DEFAULT_APPS, DEFAULT_LOCALE_PATHS, DEFAULT_LANGUAGES,
