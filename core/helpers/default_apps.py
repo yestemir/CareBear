@@ -6,7 +6,7 @@ DJANGO_APPS: Tuple[str, ...] = (
     'django.contrib.messages', 'django.contrib.sessions',
 )
 SIDE_APPS: Tuple[str, ...] = (
-    'cloudinary_storage', 'django.contrib.staticfiles',
+    'cloudinary_storage',
     'corsheaders', 'rest_framework', 'rest_framework.authtoken',
     'django_extensions', 'django_filters', 'django_fsm',
     'cloudinary',
