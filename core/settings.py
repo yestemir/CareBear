@@ -56,7 +56,9 @@ CORS_ALLOW_HEADERS: Tuple = default_headers
 CORS_ALLOW_CREDENTIALS: bool = True
 # Rest framework
 REST_FRAMEWORK: MappingProxyType = REST_FRAMEWORK_SETTINGS
-# Storage
-DEFAULT_FILE_STORAGE: str = STORAGES.get(
-    'LOCAL', DEFAULT_STORAGE
-)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'YOUR_CLOUD_NAME',
+    'API_KEY': 'YOUR_API_KEY',
+    'API_SECRET': 'YOUR_API_SECRET',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
