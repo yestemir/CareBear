@@ -20,11 +20,6 @@ BASE_DIR: str = dirname(dirname(abspath(__file__)))
 # Environment variables
 env: Env = Env()
 Env.read_env()
-# Sentry
-SENTRY_DSN: str = env.str(var='SENTRY_DSN')
-sentry_sdk.init(
-    dsn=SENTRY_DSN, integrations=(DjangoIntegration(), CeleryIntegration())
-)
 # Django
 DEBUG: bool = env.bool(var='DEBUG')
 SECRET_KEY: str = env.str(var='SECRET_KEY')
