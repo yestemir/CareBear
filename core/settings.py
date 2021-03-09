@@ -13,7 +13,7 @@ from .helpers import (
 )
 
 BASE_DIR: str = dirname(dirname(abspath(__file__)))
-
+DATABASE_URL = 'postgres://rgksoivxhcupzo:d68b293a5c34926a557feff48554fd62f99d18873787c19cd90dd5bceefd6c57@ec2-54-198-252-9.compute-1.amazonaws.com:5432/d2ghkg9233do1p'
 # Django
 DEBUG: bool = True
 SECRET_KEY: str = 'B81543719AB276D3268D4A293FC2A492E2B4996CCE2D6624B529351A26'
@@ -24,14 +24,7 @@ MIDDLEWARE: Tuple = DEFAULT_MIDDLEWARE
 ROOT_URLCONF: str = 'core.urls'
 TEMPLATES: Tuple = DEFAULT_TEMPLATES
 WSGI_APPLICATION: str = 'core.wsgi.application'
-
-DATABASES = {
-    "default": {
-        "ENGINE" : "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3")
-    }
-}
-
+DATABASES: MappingProxyType = MappingProxyType({'default': DATABASE_URL})
 AUTH_PASSWORD_VALIDATORS: Tuple = DEFAULT_VALIDATORS
 # ASGI
 ASGI_APPLICATION: str = 'core.asgi.application'
