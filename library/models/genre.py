@@ -16,3 +16,6 @@ class Genre(models.Model):
         db_table = 'library.genres'
         verbose_name = _('genre')
         verbose_name_plural = _('genres')
+
+    def __str__(self):
+        return self.title

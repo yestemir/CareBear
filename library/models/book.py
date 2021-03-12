@@ -57,3 +57,6 @@ class Book(models.Model):
         db_table = 'library.books'
         verbose_name = _('book')
         verbose_name_plural = _('books')
+
+    def __str__(self):
+        return self.title
