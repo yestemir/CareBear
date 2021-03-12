@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 
 from library.views import (
     BookViewSet, RentedBookViewSet, ReviewViewSet, SavedBookViewSet,
-    UserViewSet,
+    UserViewSet, GenreViewSet,
 )
 
 router = DefaultRouter()
@@ -20,6 +20,9 @@ router.register(
 )
 router.register(
     prefix='saved_books', viewset=SavedBookViewSet, basename='saved_books',
+)
+router.register(
+    prefix='genres', viewset=GenreViewSet, basename='genres',
 )
 router.register(
     prefix='users', viewset=UserViewSet, basename='users',
