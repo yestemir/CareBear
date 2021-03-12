@@ -16,13 +16,14 @@ class Book(models.Model):
         verbose_name=_('author'), help_text=_('author'),
         max_length=32, default=''
     )
-    genre = models.CharField(
-        verbose_name=_('genre'), help_text=_('genre'),
-        max_length=32, default=''
-    )
     rating = models.DecimalField(
         verbose_name=_('rating'), help_text=_('rating'),
         default=0, decimal_places=1, max_digits=3
+    )
+    genre = models.ForeignKey(
+        to='library.Genre', on_delete=models.SET_NULL,
+        null=True, related_name='books',
+        verbose_name=_('genre'), help_text=_('genre')
     )
     image = models.FileField(blank=True, upload_to='photos/%d-%m-%Y')
     created = models.DateTimeField(
@@ -43,6 +44,10 @@ class Book(models.Model):
     language = models.CharField(
         verbose_name=_('language'), help_text=_('language'),
         max_length=32, default='russian'
+    )
+    link = models.CharField(
+        verbose_name=_('link'), help_text=_('link'),
+        max_length=200, default='', null=True
     )
 
     objects: Manager

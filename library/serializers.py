@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from library.models import Book
+from library.models import Book, SavedBook, RentedBook, Review
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -16,19 +16,19 @@ class BookSerializer(serializers.ModelSerializer):
 
 class SavedBookSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Book
+        model = SavedBook
         fields = ('id', 'book', 'user', 'created')
 
 
 class RentedBookSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Book
+        model = RentedBook
         fields = ('id', 'book', 'user', 'created', 'state', 'term')
 
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Book
+        model = Review
         fields = ('id', 'book', 'user', 'created', 'text', 'rating')
 
 
