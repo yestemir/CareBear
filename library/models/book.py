@@ -47,7 +47,7 @@ class Book(models.Model):
     )
     link = models.CharField(
         verbose_name=_('link'), help_text=_('link'),
-        max_length=200, default='', null=True
+        max_length=200, default='', blank=True
     )
 
     objects: Manager
