@@ -7,6 +7,7 @@ REST_FRAMEWORK_SETTINGS = MappingProxyType(
     mapping={
         'DEFAULT_AUTHENTICATION_CLASSES': (
             'rest_framework.authentication.TokenAuthentication',
+            'rest_framework.authentication.SessionAuthentication',
         ),
         'DEFAULT_PERMISSION_CLASSES': (),
         'DEFAULT_VERSIONING_CLASS': VERSIONING,

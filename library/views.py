@@ -10,7 +10,7 @@ from rest_framework.viewsets import ModelViewSet
 from library.models import Book, SavedBook, RentedBook, Review, Genre
 from library.serializers import (
     BookSerializer, SavedBookSerializer, ReviewSerializer, UserSerializer,
-    GenreSerializer,
+    GenreSerializer, RentedBookSerializer,
 )
 
 
@@ -25,7 +25,7 @@ class BookViewSet(ModelViewSet):
 
 class RentedBookViewSet(ModelViewSet):
     queryset: QuerySet = RentedBook.objects.all()
-    serializer_class = BookSerializer
+    serializer_class = RentedBookSerializer
     http_method_names = ('get', 'post', 'patch')
     permission_classes = (IsAuthenticated,)
 
