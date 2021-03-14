@@ -6,6 +6,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
 
 from library.models import Book, SavedBook, RentedBook, Review, Genre
 from library.serializers import (
@@ -29,6 +30,18 @@ class RentedBookViewSet(ModelViewSet):
     http_method_names = ('get', 'post', 'patch')
     permission_classes = (IsAuthenticated,)
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(
+            user_id=request.user.pk
+        )
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 class ReviewViewSet(ModelViewSet):
     queryset: QuerySet = Review.objects.all()
@@ -45,6 +58,18 @@ class SavedBookViewSet(ModelViewSet):
     serializer_class = SavedBookSerializer
     http_method_names = ('get', 'post', 'delete')
     permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(
+            user_id=request.user.pk
+        )
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class GenreViewSet(ModelViewSet):
