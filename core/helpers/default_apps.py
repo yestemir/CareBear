@@ -11,7 +11,7 @@ SIDE_APPS: Tuple[str, ...] = (
     'django_extensions', 'django_filters', 'django_fsm',
     'cloudinary',
 )
-PROJECT_APPS: Tuple[str, ...] = ('library', 'hello')
+PROJECT_APPS: Tuple[str, ...] = ('library', )
 message: str = 'no more than 5 apps per django project'
 assert len(PROJECT_APPS) <= 5, message  # nosec
 DEFAULT_APPS: Tuple[str, ...] = DJANGO_APPS + SIDE_APPS + PROJECT_APPS

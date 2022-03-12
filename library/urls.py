@@ -4,8 +4,9 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.routers import DefaultRouter
 
 from library.views import (
-    BookViewSet, RentedBookViewSet, ReviewViewSet, SavedBookViewSet,
-    UserViewSet, GenreViewSet,
+    UserViewSet,
+    # BookViewSet, RentedBookViewSet, ReviewViewSet, SavedBookViewSet,
+    # GenreViewSet,
 )
 
 router = DefaultRouter()
