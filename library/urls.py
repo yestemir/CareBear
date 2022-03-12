@@ -9,21 +9,21 @@ from library.views import (
 )
 
 router = DefaultRouter()
-router.register(
-    prefix='books', viewset=BookViewSet, basename='books',
-)
-router.register(
-    prefix='rented_books', viewset=RentedBookViewSet, basename='rented_books',
-)
-router.register(
-    prefix='reviews', viewset=ReviewViewSet, basename='reviews',
-)
-router.register(
-    prefix='saved_books', viewset=SavedBookViewSet, basename='saved_books',
-)
-router.register(
-    prefix='genres', viewset=GenreViewSet, basename='genres',
-)
+# router.register(
+#     prefix='books', viewset=BookViewSet, basename='books',
+# )
+# router.register(
+#     prefix='rented_books', viewset=RentedBookViewSet, basename='rented_books',
+# )
+# router.register(
+#     prefix='reviews', viewset=ReviewViewSet, basename='reviews',
+# )
+# router.register(
+#     prefix='saved_books', viewset=SavedBookViewSet, basename='saved_books',
+# )
+# router.register(
+#     prefix='genres', viewset=GenreViewSet, basename='genres',
+# )
 router.register(
     prefix='users', viewset=UserViewSet, basename='users',
 )
