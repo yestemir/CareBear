@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Manager
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
+from django.core.validators import MaxValueValidator, MinValueValidator
 from .checkbox import Checkbox
 
 
@@ -11,7 +12,10 @@ class HealthStatus(models.Model):
     )
     mood_percentage = models.IntegerField(
         verbose_name=_('mood_percentage'), help_text=_('mood_percentage'),
-        default=0
+        default=0, validators=[
+            MaxValueValidator(100),
+            MinValueValidator(1)
+        ]
     )
     mood = models.CharField(
         verbose_name=_('mood'), help_text=_('mood'),
@@ -21,31 +25,29 @@ class HealthStatus(models.Model):
         verbose_name=_('comment'), help_text=_('comment'),
         max_length=100, default=''
     )
-    nutrition = models.ManyToManyField(
+    nutrition = models.ManyToOneRel(
         to='library.checkbox', related_name='nutrition',
-        verbose_name=_('nutrition'), help_text=_('nutrition')
+        field='task', field_name='task'
+        # verbose_name=_('nutrition'), help_text=_('nutrition')
     )
-    pills = models.ManyToManyField(
+    pills = models.ManyToOneRel(
         to='library.checkbox', related_name='pills',
-        verbose_name=_('pills'), help_text=_('pills')
+        field='task', field_name='task'
+        # verbose_name=_('pills'), help_text=_('pills')
     )
-    todos = models.ManyToManyField(
+    todos = models.ManyToOneRel(
         to='library.checkbox', related_name='todos',
-        verbose_name=_('todos'), help_text=_('todos')
+        field='task', field_name='task'
+        # verbose_name=_('todos'), help_text=_('todos')
     )
-    # checkboxes = models.ManyToManyField(Checkbox)
+    # custom = models.ManyToOneRel(Checkbox)
 
     user = models.ForeignKey(
         to=get_user_model(), on_delete=models.SET_NULL,
         null=True, related_name='health_status',
         verbose_name=_('user'), help_text=_('user')
     )
-    # nutrition = models.ForeignKey(
-    #     to='library.checkbox', on_delete=models.SET_NULL,
-    #     null=True, related_name='health_status',
-    #     verbose_name=_('task'), help_text=_('task')
-    # )
-    # image = models.FileField(blank=True, upload_to='photos/%d-%m-%Y')
+    image = models.FileField(blank=True, upload_to='photos/%d-%m-%Y')
     # pills = models.ForeignKey(
     #     to='library.checkbox', on_delete=models.SET_NULL,
     #     null=True, related_name='health_status',
