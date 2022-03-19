@@ -77,9 +77,9 @@ class CheckboxesViewSet(ModelViewSet):
         return Response(serializer.data)
 
 
-# class SavedBookViewSet(ModelViewSet):
-#     queryset: QuerySet = SavedBook.objects.all()
-#     serializer_class = SavedBookSerializer
+# class UserHealthStatusViewSet(ModelViewSet):
+#     queryset: QuerySet = UserHealthStatus.objects.all()
+#     serializer_class = UserHealthStatus
 #     http_method_names = ('get', 'post', 'delete')
 #     permission_classes = (IsAuthenticated,)
 #
@@ -94,8 +94,8 @@ class CheckboxesViewSet(ModelViewSet):
 #
 #         serializer = self.get_serializer(queryset, many=True)
 #         return Response(serializer.data)
-#
-#
+
+
 # class GenreViewSet(ModelViewSet):
 #     queryset: QuerySet = Genre.objects.all()
 #     serializer_class = GenreSerializer

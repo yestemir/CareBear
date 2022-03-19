@@ -5,5 +5,5 @@ from .checkbox import Checkbox
 from .checkboxes import Checkboxes
 
 __all__: Tuple = (
-    'HealthStatus', 'Checkbox', 'Checkboxes'
+    'HealthStatus', 'Checkbox', 'Checkboxes',
 )

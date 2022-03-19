@@ -8,7 +8,7 @@ class HealthCheckSerializer(serializers.ModelSerializer):
     class Meta:
         model = HealthStatus
         fields = (
-            'id', 'date', 'mood_percentage', 'mood', 'comment', 'nutrition', 'pills', 'todos', 'custom',
+            'id', 'date', 'mood_percentage', 'mood', 'comment', 'nutrition', 'pills', 'todos', 'custom', 'user'
         )
 
 
@@ -24,12 +24,11 @@ class CheckboxSerializer(serializers.ModelSerializer):
         fields = ('id', 'task', 'done', 'everyday')
 
 
-# class ReviewSerializer(serializers.ModelSerializer):
+# class UserHealthStatusSerializer(serializers.ModelSerializer):
 #     class Meta:
-#         model = Review
-#         fields = ('id', 'book', 'user', 'created', 'text', 'rating')
-#
-#
+#         model = UserHealthStatus
+#         fields = ('id', 'user', 'health_status')
+
 # class GenreSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Genre
