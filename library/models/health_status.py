@@ -38,10 +38,10 @@ class HealthStatus(models.Model):
         to='library.checkbox', related_name='todos',
         verbose_name=_('todos'), help_text=_('todos')
     )
-    custom = models.ManyToManyField(
-        to='library.checkboxes', related_name='custom',
-        verbose_name=_('custom'), help_text=_('custom')
-    )
+    # custom = models.ManyToManyField(
+    #     to='library.checkboxes', related_name='custom',
+    #     verbose_name=_('custom'), help_text=_('custom')
+    # )
     user = models.ForeignKey(
         to=get_user_model(), on_delete=models.SET_NULL,
         null=True, related_name='health_status',
