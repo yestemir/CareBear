@@ -25,20 +25,17 @@ class HealthStatus(models.Model):
         verbose_name=_('comment'), help_text=_('comment'),
         max_length=100, default=''
     )
-    nutrition = models.ManyToOneRel(
+    nutrition = models.ManyToManyField(
         to='library.checkbox', related_name='nutrition',
-        field='task', field_name='task'
-        # verbose_name=_('nutrition'), help_text=_('nutrition')
+        verbose_name=_('nutrition'), help_text=_('nutrition')
     )
-    pills = models.ManyToOneRel(
+    pills = models.ManyToManyField(
         to='library.checkbox', related_name='pills',
-        field='task', field_name='task'
-        # verbose_name=_('pills'), help_text=_('pills')
+        verbose_name=_('pills'), help_text=_('pills')
     )
-    todos = models.ManyToOneRel(
+    todos = models.ManyToManyField(
         to='library.checkbox', related_name='todos',
-        field='task', field_name='task'
-        # verbose_name=_('todos'), help_text=_('todos')
+        verbose_name=_('todos'), help_text=_('todos')
     )
     # custom = models.ManyToOneRel(Checkbox)
 
@@ -47,7 +44,7 @@ class HealthStatus(models.Model):
         null=True, related_name='health_status',
         verbose_name=_('user'), help_text=_('user')
     )
-    image = models.FileField(blank=True, upload_to='photos/%d-%m-%Y')
+    # image = models.FileField(blank=True, upload_to='photos/%d-%m-%Y')
     # pills = models.ForeignKey(
     #     to='library.checkbox', on_delete=models.SET_NULL,
     #     null=True, related_name='health_status',
