@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a17e0116-2869-4f39-a8ec-72beafeeab4d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/library/models/checkbox.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/library/models/health_status.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/library/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/models/book.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/models/genre.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/models/saved_book.py" beforeDir="false" afterPath="$PROJECT_DIR$/library/models/checkboxes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/library/serializers.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="26IODVI6LJZFZG9L2IRVOIrpjCN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
   <component name="RunManager">
     <configuration name="carebear" type="Python.DjangoServer" factoryName="Django server">
       <module name="carebear" />
@@ -24,5 +57,33 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a17e0116-2869-4f39-a8ec-72beafeeab4d" name="Changes" comment="" />
+      <created>1647107513418</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1647107513418</updated>
+      <workItem from="1647107536151" duration="228000" />
+      <workItem from="1647107775425" duration="27000" />
+      <workItem from="1647615800182" duration="3625000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

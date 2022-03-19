@@ -1,31 +1,29 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-# from library.models import Book, SavedBook, RentedBook, Review, Genre
+from library.models import HealthStatus, Checkboxes, Checkbox
 
 
-# class BookSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Book
-#         fields = (
-#             'id', 'title', 'description', 'author', 'genre', 'rating',
-#             'image', 'created', 'release_date', 'isbn', 'quantity',
-#             'language',
-#         )
-#
-#
-# class SavedBookSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = SavedBook
-#         fields = ('id', 'book', 'user', 'created')
-#
-#
-# class RentedBookSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = RentedBook
-#         fields = ('id', 'book', 'user', 'created', 'state', 'term')
-#
-#
+class HealthCheckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HealthStatus
+        fields = (
+            'id', 'date', 'mood_percentage', 'mood', 'comment', 'checkboxes',
+        )
+
+
+class CheckboxesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Checkboxes
+        fields = ('id', 'checkboxes')
+
+
+class CheckboxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Checkbox
+        fields = ('id', 'task', 'done', 'everyday')
+
+
 # class ReviewSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Review
