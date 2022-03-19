@@ -8,23 +8,22 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 
-# from library.models import Book, SavedBook, RentedBook, Review, Genre
+from library.models import HealthStatus, Checkboxes, Checkbox
 from library.serializers import (
-        UserSerializer,
-        # BookSerializer, SavedBookSerializer, ReviewSerializer,
-        # GenreSerializer, RentedBookSerializer,
+        UserSerializer, HealthCheckSerializer, CheckboxesSerializer, CheckboxSerializer
 )
 
-#
-# class BookViewSet(ModelViewSet):
-#     queryset: QuerySet = Book.objects.all()
-#     serializer_class = BookSerializer
-#     http_method_names = ('get',)
-#     filter_backends: Tuple = (SearchFilter, DjangoFilterBackend)
-#     search_fields: Tuple = ('title', 'author')
-#     filterset_fields: Tuple = ('genre_id',)
-#
-#
+
+class HealthStatusViewSet(ModelViewSet):
+    queryset: QuerySet = HealthStatus.objects.all()
+    serializer_class = HealthCheckSerializer
+    http_method_names = ('get', 'post')
+    filter_backends: Tuple = (SearchFilter, DjangoFilterBackend)
+    permission_classes = (IsAuthenticated,)
+    # search_fields: Tuple = ('title', 'author')
+    # filterset_fields: Tuple = ('genre_id',)
+
+
 # class RentedBookViewSet(ModelViewSet):
 #     queryset: QuerySet = RentedBook.objects.all()
 #     serializer_class = RentedBookSerializer
@@ -42,8 +41,8 @@ from library.serializers import (
 #
 #         serializer = self.get_serializer(queryset, many=True)
 #         return Response(serializer.data)
-#
-#
+
+
 # class ReviewViewSet(ModelViewSet):
 #     queryset: QuerySet = Review.objects.all()
 #     serializer_class = ReviewSerializer

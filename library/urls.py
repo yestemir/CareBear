@@ -2,17 +2,18 @@ from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.routers import DefaultRouter
+from library.models import HealthStatus, Checkboxes, Checkbox
 
 from library.views import (
-    UserViewSet,
+    UserViewSet, HealthStatusViewSet
     # BookViewSet, RentedBookViewSet, ReviewViewSet, SavedBookViewSet,
     # GenreViewSet,
 )
 
 router = DefaultRouter()
-# router.register(
-#     prefix='books', viewset=BookViewSet, basename='books',
-# )
+router.register(
+    prefix='health_status', viewset=HealthStatusViewSet, basename='health_status',
+)
 # router.register(
 #     prefix='rented_books', viewset=RentedBookViewSet, basename='rented_books',
 # )
