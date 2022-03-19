@@ -15,7 +15,7 @@ class HealthCheckSerializer(serializers.ModelSerializer):
 class CheckboxesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Checkboxes
-        fields = ('id', 'checkboxes')
+        fields = ('id', 'title', 'checkboxes')
 
 
 class CheckboxSerializer(serializers.ModelSerializer):
