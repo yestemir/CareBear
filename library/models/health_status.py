@@ -28,19 +28,23 @@ class HealthStatus(models.Model):
     )
     nutrition = models.ManyToManyField(
         to='library.checkbox', related_name='nutrition',
-        verbose_name=_('nutrition'), help_text=_('nutrition')
+        verbose_name=_('nutrition'), help_text=_('nutrition'),
+        blank=True
     )
     pills = models.ManyToManyField(
         to='library.checkbox', related_name='pills',
-        verbose_name=_('pills'), help_text=_('pills')
+        verbose_name=_('pills'), help_text=_('pills'),
+        blank=True
     )
     todos = models.ManyToManyField(
         to='library.checkbox', related_name='todos',
-        verbose_name=_('todos'), help_text=_('todos')
+        verbose_name=_('todos'), help_text=_('todos'),
+        blank=True
     )
     custom = models.ManyToManyField(
         to='library.checkboxes', related_name='custom',
-        verbose_name=_('custom'), help_text=_('custom')
+        verbose_name=_('custom'), help_text=_('custom'),
+        blank=True
     )
     user = models.ForeignKey(
         to=get_user_model(), on_delete=models.SET_NULL,
