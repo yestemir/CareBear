@@ -8,9 +8,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 
-from library.models import HealthStatus, Checkbox
+from library.models import HealthStatus, Checkbox, Checkboxes
 from library.serializers import (
-        UserSerializer, HealthCheckSerializer, CheckboxSerializer
+        UserSerializer, HealthCheckSerializer, CheckboxSerializer, CheckboxesSerializer
 )
 
 
@@ -36,35 +36,47 @@ class HealthStatusViewSet(ModelViewSet):
         return Response(serializer.data)
 
 
-# class RentedBookViewSet(ModelViewSet):
-#     queryset: QuerySet = RentedBook.objects.all()
-#     serializer_class = RentedBookSerializer
-#     http_method_names = ('get', 'post', 'patch')
-#     permission_classes = (IsAuthenticated,)
-#
-#     def list(self, request, *args, **kwargs):
-#         queryset = self.get_queryset().filter(
-#             user_id=request.user.pk
-#         )
-#         page = self.paginate_queryset(queryset)
-#         if page is not None:
-#             serializer = self.get_serializer(page, many=True)
-#             return self.get_paginated_response(serializer.data)
-#
-#         serializer = self.get_serializer(queryset, many=True)
-#         return Response(serializer.data)
+class CheckboxViewSet(ModelViewSet):
+    queryset: QuerySet = Checkbox.objects.all()
+    serializer_class = CheckboxSerializer
+    http_method_names = ('get', 'post', 'patch')
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(
+            user_id=request.user.pk
+        )
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
-# class ReviewViewSet(ModelViewSet):
-#     queryset: QuerySet = Review.objects.all()
-#     serializer_class = ReviewSerializer
-#     http_method_names = ('get', 'post')
-#     filter_backends: Tuple = (SearchFilter, DjangoFilterBackend)
-#     search_fields: Tuple = ('text',)
-#     filterset_fields: Tuple = ('book_id',)
-#     permission_classes = (IsAuthenticated,)
-#
-#
+class CheckboxesViewSet(ModelViewSet):
+    queryset: QuerySet = Checkboxes.objects.all()
+    serializer_class = CheckboxesSerializer
+    http_method_names = ('get', 'post')
+    filter_backends: Tuple = (SearchFilter, DjangoFilterBackend)
+    # search_fields: Tuple = ('text',)
+    # filterset_fields: Tuple = ('book_id',)
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(
+            user_id=request.user.pk
+        )
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
 # class SavedBookViewSet(ModelViewSet):
 #     queryset: QuerySet = SavedBook.objects.all()
 #     serializer_class = SavedBookSerializer
