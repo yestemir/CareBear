@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from library.models import HealthStatus, Checkboxes, Checkbox
+from library.models import HealthStatus, Checkbox
 
 
 class HealthCheckSerializer(serializers.ModelSerializer):
@@ -12,10 +12,10 @@ class HealthCheckSerializer(serializers.ModelSerializer):
         )
 
 
-class CheckboxesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Checkboxes
-        fields = ('id', 'checkboxes')
+# class CheckboxesSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Checkboxes
+#         fields = ('id', 'checkboxes')
 
 
 class CheckboxSerializer(serializers.ModelSerializer):

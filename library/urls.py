@@ -2,7 +2,7 @@ from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.routers import DefaultRouter
-from library.models import HealthStatus, Checkboxes, Checkbox
+from library.models import HealthStatus, Checkbox
 
 from library.views import (
     UserViewSet, HealthStatusViewSet
