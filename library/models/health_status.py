@@ -9,6 +9,7 @@ from .checkbox import Checkbox
 class HealthStatus(models.Model):
     date = models.DateTimeField(
         verbose_name=_('date'), help_text=_('date'),
+        auto_now_add=True
     )
     mood_percentage = models.IntegerField(
         verbose_name=_('mood_percentage'), help_text=_('mood_percentage'),
@@ -23,7 +24,7 @@ class HealthStatus(models.Model):
     )
     comment = models.CharField(
         verbose_name=_('comment'), help_text=_('comment'),
-        max_length=100, default=''
+        max_length=250, default=''
     )
     nutrition = models.ManyToManyField(
         to='library.checkbox', related_name='nutrition',
@@ -37,8 +38,10 @@ class HealthStatus(models.Model):
         to='library.checkbox', related_name='todos',
         verbose_name=_('todos'), help_text=_('todos')
     )
-    # custom = models.ManyToOneRel(Checkbox)
-
+    custom = models.ManyToManyField(
+        to='library.checkboxes', related_name='custom',
+        verbose_name=_('custom'), help_text=_('custom')
+    )
     user = models.ForeignKey(
         to=get_user_model(), on_delete=models.SET_NULL,
         null=True, related_name='health_status',
