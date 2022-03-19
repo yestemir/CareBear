@@ -21,23 +21,19 @@ class HealthStatus(models.Model):
         verbose_name=_('comment'), help_text=_('comment'),
         max_length=100, default=''
     )
-    nutrition = models.ForeignKey(
-        to='library.checkbox', on_delete=models.SET_NULL,
-        null=True, related_name='nutrition',
-        verbose_name=_('task'), help_text=_('task')
+    nutrition = models.ManyToManyField(
+        to='library.checkbox', related_name='nutrition',
+        verbose_name=_('nutrition'), help_text=_('nutrition')
     )
-    # image = models.FileField(blank=True, upload_to='photos/%d-%m-%Y')
-    pills = models.ForeignKey(
-        to='library.checkbox', on_delete=models.SET_NULL,
-        null=True, related_name='pills',
-        verbose_name=_('task'), help_text=_('task')
+    pills = models.ManyToManyField(
+        to='library.checkbox', related_name='pills',
+        verbose_name=_('pills'), help_text=_('pills')
     )
-    todos = models.ForeignKey(
-        to='library.checkbox', on_delete=models.SET_NULL,
-        null=True, related_name='todos',
-        verbose_name=_('task'), help_text=_('task')
+    todos = models.ManyToManyField(
+        to='library.checkbox', related_name='todos',
+        verbose_name=_('todos'), help_text=_('todos')
     )
-    checkboxes = models.ManyToManyField(Checkbox)
+    # checkboxes = models.ManyToManyField(Checkbox)
 
     user = models.ForeignKey(
         to=get_user_model(), on_delete=models.SET_NULL,
