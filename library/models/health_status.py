@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Manager
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
+from .checkbox import Checkbox
 
 
 class HealthStatus(models.Model):
@@ -20,11 +21,8 @@ class HealthStatus(models.Model):
         verbose_name=_('comment'), help_text=_('comment'),
         max_length=100, default=''
     )
-    checkboxes = models.ForeignKey(
-        to='library.checkboxes', on_delete=models.SET_NULL,
-        null=True, related_name='health_status',
-        verbose_name=_('checkboxes'), help_text=_('checkboxes')
-    )
+    checkboxes = models.ManyToManyField(Checkbox)
+
     user = models.ForeignKey(
         to=get_user_model(), on_delete=models.SET_NULL,
         null=True, related_name='health_status',

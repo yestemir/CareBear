@@ -23,6 +23,18 @@ class HealthStatusViewSet(ModelViewSet):
     # search_fields: Tuple = ('title', 'author')
     # filterset_fields: Tuple = ('genre_id',)
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(
+            user_id=request.user.pk
+        )
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 # class RentedBookViewSet(ModelViewSet):
 #     queryset: QuerySet = RentedBook.objects.all()
