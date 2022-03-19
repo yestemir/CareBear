@@ -8,7 +8,7 @@ class HealthCheckSerializer(serializers.ModelSerializer):
     class Meta:
         model = HealthStatus
         fields = (
-            'id', 'date', 'mood_percentage', 'mood', 'comment', 'checkboxes',
+            'id', 'date', 'mood_percentage', 'mood', 'comment', 'nutrition', 'pills', 'todos', 'custom',
         )
 
 
