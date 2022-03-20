@@ -8,24 +8,25 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 
-from library.models import HealthStatus, Checkbox, Checkboxes
+from library.models import HealthStatus, Checkbox
 from library.serializers import (
-        UserSerializer, HealthCheckSerializer, CheckboxSerializer, CheckboxesSerializer
+        UserSerializer, HealthCheckSerializer, CheckboxSerializer
 )
 
 
 class HealthStatusViewSet(ModelViewSet):
     queryset: QuerySet = HealthStatus.objects.all()
     serializer_class = HealthCheckSerializer
-    http_method_names = ('get', 'post')
+    http_method_names = ('get', 'post', 'patch', 'delete')
     filter_backends: Tuple = (SearchFilter, DjangoFilterBackend)
     permission_classes = (IsAuthenticated,)
-    # search_fields: Tuple = ('title', 'author')
-    # filterset_fields: Tuple = ('genre_id',)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(
-            user_id=request.user.pk
+            user=request.user.pk
         )
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -39,8 +40,11 @@ class HealthStatusViewSet(ModelViewSet):
 class CheckboxViewSet(ModelViewSet):
     queryset: QuerySet = Checkbox.objects.all()
     serializer_class = CheckboxSerializer
-    http_method_names = ('get', 'post', 'patch')
+    http_method_names = ('get', 'post', 'patch', 'delete')
     permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(
@@ -55,26 +59,26 @@ class CheckboxViewSet(ModelViewSet):
         return Response(serializer.data)
 
 
-class CheckboxesViewSet(ModelViewSet):
-    queryset: QuerySet = Checkboxes.objects.all()
-    serializer_class = CheckboxesSerializer
-    http_method_names = ('get', 'post')
-    filter_backends: Tuple = (SearchFilter, DjangoFilterBackend)
-    # search_fields: Tuple = ('text',)
-    # filterset_fields: Tuple = ('book_id',)
-    permission_classes = (IsAuthenticated,)
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset().filter(
-            user_id=request.user.pk
-        )
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+# class CheckboxesViewSet(ModelViewSet):
+#     queryset: QuerySet = Checkboxes.objects.all()
+#     serializer_class = CheckboxesSerializer
+#     http_method_names = ('get', 'post')
+#     filter_backends: Tuple = (SearchFilter, DjangoFilterBackend)
+#     # search_fields: Tuple = ('text',)
+#     # filterset_fields: Tuple = ('book_id',)
+#     permission_classes = (IsAuthenticated,)
+#
+#     def list(self, request, *args, **kwargs):
+#         queryset = self.get_queryset().filter(
+#             user_id=request.user.pk
+#         )
+#         page = self.paginate_queryset(queryset)
+#         if page is not None:
+#             serializer = self.get_serializer(page, many=True)
+#             return self.get_paginated_response(serializer.data)
+#
+#         serializer = self.get_serializer(queryset, many=True)
+#         return Response(serializer.data)
 
 
 # class UserHealthStatusViewSet(ModelViewSet):
