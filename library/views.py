@@ -20,14 +20,27 @@ class HealthStatusViewSet(ModelViewSet):
     http_method_names = ('get', 'post', 'patch', 'delete')
     filter_backends: Tuple = (SearchFilter, DjangoFilterBackend)
     permission_classes = (IsAuthenticated,)
+    search_fields: Tuple = ('date',)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def filter_by_date_range(self, dates: dict, queryset):
+        query_set = queryset
+        if dates is None:
+            return queryset
+        if dates.get('start_date') is not None:
+            query_set = query_set.filter(date__gte=dates.get('start_date'))
+        if dates.get('end_date') is not None:
+            query_set = query_set.filter(date__lte=dates.get('end_date'))
+        return query_set
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(
             user=request.user.pk
         )
+        print(request.query_params)
+        queryset = self.filter_by_date_range(request.query_params, queryset)
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)

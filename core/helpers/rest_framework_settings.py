@@ -9,11 +9,14 @@ REST_FRAMEWORK_SETTINGS = MappingProxyType(
             'rest_framework.authentication.TokenAuthentication',
             'rest_framework.authentication.SessionAuthentication',
         ),
+        'DEFAULT_FILTER_BACKENDS': (
+            'django_filters.rest_framework.DjangoFilterBackend',
+        ),
         'DEFAULT_PERMISSION_CLASSES': (),
         'DEFAULT_VERSIONING_CLASS': VERSIONING,
         'DEFAULT_VERSION': '1.0',
         'ALLOWED_VERSIONS': ('1.0',),
         'DEFAULT_PAGINATION_CLASS': PAGINATION,
-        'PAGE_SIZE': 20,
+        'PAGE_SIZE': 30,
     },
 )
