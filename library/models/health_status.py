@@ -3,48 +3,29 @@ from django.db.models import Manager
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
+from datetime import datetime
 
 
 class HealthStatus(models.Model):
     date = models.DateTimeField(
         verbose_name=_('date'), help_text=_('date'),
-        auto_now_add=True
+        default=datetime.now, blank=True,
     )
     mood_percentage = models.IntegerField(
         verbose_name=_('mood_percentage'), help_text=_('mood_percentage'),
-        default=0, validators=[
+        default=0, blank=True, validators=[
             MaxValueValidator(100),
-            MinValueValidator(1)
+            MinValueValidator(0)
         ]
     )
     mood = models.CharField(
         verbose_name=_('mood'), help_text=_('mood'),
-        max_length=100, default=''
+        max_length=100, default='', blank=True
     )
     comment = models.CharField(
         verbose_name=_('comment'), help_text=_('comment'),
-        max_length=250, default=''
+        max_length=250, default='', blank=True
     )
-    # nutrition = models.ManyToManyField(
-    #     to='library.checkbox', related_name='nutrition',
-    #     verbose_name=_('nutrition'), help_text=_('nutrition'),
-    #     blank=True
-    # )
-    # pills = models.ManyToManyField(
-    #     to='library.checkbox', related_name='pills',
-    #     verbose_name=_('pills'), help_text=_('pills'),
-    #     blank=True
-    # )
-    # todos = models.ManyToManyField(
-    #     to='library.checkbox', related_name='todos',
-    #     verbose_name=_('todos'), help_text=_('todos'),
-    #     blank=True
-    # )
-    # custom = models.ManyToManyField(
-    #     to='library.checkboxes', related_name='custom',
-    #     verbose_name=_('custom'), help_text=_('custom'),
-    #     blank=True
-    # )
     user = models.ForeignKey(
         to=get_user_model(), on_delete=models.SET_NULL,
         null=True, related_name='health_status',

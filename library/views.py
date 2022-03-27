@@ -3,7 +3,7 @@ from typing import Tuple
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter
+# from rest_framework.filters import SearchFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
@@ -18,7 +18,7 @@ class HealthStatusViewSet(ModelViewSet):
     queryset: QuerySet = HealthStatus.objects.all()
     serializer_class = HealthCheckSerializer
     http_method_names = ('get', 'post', 'patch', 'delete')
-    filter_backends: Tuple = (SearchFilter, DjangoFilterBackend)
+    filter_backends: Tuple = (DjangoFilterBackend, )
     permission_classes = (IsAuthenticated,)
     search_fields: Tuple = ('date',)
 
