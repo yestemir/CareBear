@@ -1,16 +1,21 @@
+import calendar
+
 from django.db import models
 from django.db.models import Manager
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
-from datetime import datetime
+import datetime
 
 
 class HealthStatus(models.Model):
     date = models.DateField(
         verbose_name=_('date'), help_text=_('date'),
-        default=datetime.now, blank=True,
+        default=datetime.date.today(), blank=True,
     )
+    def date_trunc_field(self):
+        return self.date_field.date()
+
     mood_percentage = models.IntegerField(
         verbose_name=_('mood_percentage'), help_text=_('mood_percentage'),
         default=0, blank=True, validators=[
