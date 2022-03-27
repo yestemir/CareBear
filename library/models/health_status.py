@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 class HealthStatus(models.Model):
-    date = models.DateTimeField(
+    date = models.DateField(
         verbose_name=_('date'), help_text=_('date'),
         default=datetime.now, blank=True,
     )
