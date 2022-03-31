@@ -9,12 +9,12 @@ class CheckboxSerializer(serializers.ModelSerializer):
     class Meta:
         model = Checkbox
         fields = ('id', 'name', 'title', 'done', 'everyday', 'type', 'health_status', 'user_id',)
-        # extra_kwargs = {
-        #     "id": {
-        #         "read_only": False,
-        #         "required": False,
-        #     },
-        # }
+        extra_kwargs = {
+            "id": {
+                "read_only": False,
+                "required": False,
+            },
+        }
 
 
 class HealthCheckSerializer(serializers.ModelSerializer):
@@ -40,10 +40,10 @@ class HealthCheckSerializer(serializers.ModelSerializer):
         for data in checkbox_data:
             data['health_status'] = instance
             data['user_id'] = instance.user
-            # if data.get('id') is not None:
-            #     Checkbox.objects.filter(pk=data.pop('id')).update(**data)
-            # else:
-            Checkbox.objects.create(**data)
+            if data.get('id') is not None:
+                Checkbox.objects.filter(pk=data.pop('id')).update(**data)
+            else:
+                Checkbox.objects.create(**data)
         return instance
 
     def get_last_active_checkbox_data(self, user_id: int):
