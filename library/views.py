@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from django_filters.rest_framework import DjangoFilterBackend
 # from rest_framework.filters import SearchFilter
+from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
@@ -12,7 +14,6 @@ from library.models import HealthStatus, Checkbox
 from library.serializers import (
         UserSerializer, HealthCheckSerializer, CheckboxSerializer
 )
-import datetime
 
 
 class HealthStatusViewSet(ModelViewSet):
@@ -75,5 +76,17 @@ class CheckboxViewSet(ModelViewSet):
 class UserViewSet(ModelViewSet):
     queryset: QuerySet = User.objects.all()
     serializer_class = UserSerializer
-    http_method_names = ('get', 'post',)
+    http_method_names = ('get', 'post', 'patch', 'delete')
     permission_classes = (AllowAny,)
+
+    @action(detail=False, methods=('patch', 'get'))
+    def profile(self, request, pk=None):
+        instance = request.user
+        if request.method == 'GET':
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
