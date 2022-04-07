@@ -48,6 +48,8 @@ class HealthCheckSerializer(serializers.ModelSerializer):
 
     def get_last_active_checkbox_data(self, user_id: int):
         health_status = HealthStatus.objects.filter(user_id=user_id).order_by('date').last()
+        if health_status is None:
+            return []
         checkbox_data = []
         for data in health_status.checkbox.all():
             if data.everyday is True:
