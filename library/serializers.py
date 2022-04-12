@@ -80,7 +80,7 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
-        validated_data.pop('username')
-        validated_data.pop('email')
+        # validated_data.pop('username')
+        # validated_data.pop('email')
         instance = super().update(instance, validated_data)
         return instance
