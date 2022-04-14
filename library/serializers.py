@@ -17,12 +17,35 @@ class CheckboxSerializer(serializers.ModelSerializer):
         }
 
 
+def get_last_active_checkbox_data(user_id: int):
+    health_status = HealthStatus.objects.filter(user_id=user_id).order_by('date').last()
+    if health_status is None:
+        return []
+    checkbox_data = []
+    for data in health_status.checkbox.all():
+        if data.everyday is True:
+            old_checkbox_data = model_to_dict(data)
+            old_checkbox_data.pop('id')
+            checkbox_data.append(old_checkbox_data)
+    return checkbox_data
+
+
+def update_all_active_checkbox_data(user_id: int, name, is_active):
+    health_statuses = HealthStatus.objects.filter(user_id=user_id).order_by('date').all()
+    for health_status in health_statuses:
+        for data in health_status.checkbox.all():
+            if data.name == name:
+                data.everyday = is_active
+                checkbox_data = model_to_dict(data)
+                Checkbox.objects.filter(pk=data.id).update(**checkbox_data)
+
+
 class HealthCheckSerializer(serializers.ModelSerializer):
     checkbox = CheckboxSerializer(many=True)
 
     def create(self, validated_data):
         checkbox_data = validated_data.pop('checkbox')
-        checkbox_data.extend(self.get_last_active_checkbox_data(validated_data.get('user')))
+        checkbox_data.extend(get_last_active_checkbox_data(validated_data.get('user')))
         health_status = HealthStatus.objects.create(**validated_data)
         health_status.save()
         for data in checkbox_data:
@@ -42,21 +65,10 @@ class HealthCheckSerializer(serializers.ModelSerializer):
             data['user_id'] = instance.user
             if data.get('id') is not None:
                 Checkbox.objects.filter(pk=data.pop('id')).update(**data)
+                update_all_active_checkbox_data(data['user_id'], data['name'], data['everyday'])
             else:
                 Checkbox.objects.create(**data)
         return instance
-
-    def get_last_active_checkbox_data(self, user_id: int):
-        health_status = HealthStatus.objects.filter(user_id=user_id).order_by('date').last()
-        if health_status is None:
-            return []
-        checkbox_data = []
-        for data in health_status.checkbox.all():
-            if data.everyday is True:
-                old_checkbox_data = model_to_dict(data)
-                old_checkbox_data.pop('id')
-                checkbox_data.append(old_checkbox_data)
-        return checkbox_data
 
     class Meta:
         model = HealthStatus
