@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from library.models import HealthStatus, Checkbox
 
 from library.views import (
-    UserViewSet, HealthStatusViewSet, CheckboxViewSet
+    UserViewSet, HealthStatusViewSet, CheckboxViewSet, PostViewSet, CommentViewSet
 )
 
 router = DefaultRouter()
@@ -15,9 +15,9 @@ router.register(
 router.register(
     prefix='checkboxes', viewset=CheckboxViewSet, basename='checkboxes',
 )
-# router.register(
-#     prefix='reviews', viewset=ReviewViewSet, basename='reviews',
-# )
+router.register(
+    prefix='posts', viewset=PostViewSet, basename='post',
+)
 # router.register(
 #     prefix='saved_books', viewset=SavedBookViewSet, basename='saved_books',
 # )

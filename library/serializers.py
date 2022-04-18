@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.forms import model_to_dict
 from rest_framework import serializers
 
-from library.models import HealthStatus, Checkbox
+from library.models import HealthStatus, Checkbox, Post, Comment
 
 
 class CheckboxSerializer(serializers.ModelSerializer):
@@ -74,6 +74,62 @@ class HealthCheckSerializer(serializers.ModelSerializer):
         model = HealthStatus
         fields = (
             'id', 'date', 'mood_percentage', 'mood', 'comment', 'user', 'checkbox'
+        )
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    def get_username(self, obj):
+        return obj.user.username
+
+    username = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'text', 'post', 'created', 'user', 'username')
+        extra_kwargs = {
+            "id": {
+                "read_only": False,
+                "required": False,
+            },
+        }
+
+
+class PostSerializer(serializers.ModelSerializer):
+    comment = CommentSerializer(many=True)
+
+    def get_username(self, obj):
+        return obj.user.username
+
+    username = serializers.SerializerMethodField()
+
+    def create(self, validated_data):
+        comment_data = validated_data.pop('comment')
+        post = Post.objects.create(**validated_data)
+        post.save()
+        for data in comment_data:
+            data['post'] = post
+            data['user'] = post.user
+            # data['username'] = post.username
+            Comment.objects.create(**data)
+        return post
+
+    def update(self, instance, validated_data):
+        comment_data = validated_data.pop('comment')
+        instance.text = validated_data.get('text', instance.text)
+        instance.save()
+        for data in comment_data:
+            data['post'] = instance
+            data['user'] = instance.user
+            if data.get('id') is not None:
+                Comment.objects.filter(pk=data.pop('id')).update(**data)
+            else:
+                Comment.objects.create(**data)
+        return instance
+
+    class Meta:
+        model = Post
+        fields = (
+            'id', 'text', 'created', 'user', 'username', 'comment',
         )
 
 

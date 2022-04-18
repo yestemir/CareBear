@@ -10,9 +10,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 
-from library.models import HealthStatus, Checkbox
+from library.models import HealthStatus, Checkbox, Comment, Post
 from library.serializers import (
-        UserSerializer, HealthCheckSerializer, CheckboxSerializer
+        UserSerializer, HealthCheckSerializer, CheckboxSerializer, CommentSerializer, PostSerializer
 )
 
 
@@ -64,6 +64,49 @@ class CheckboxViewSet(ModelViewSet):
         queryset = self.get_queryset().filter(
             user_id=request.user.pk
         )
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class CommentViewSet(ModelViewSet):
+    queryset: QuerySet = Comment.objects.all()
+    serializer_class = CommentSerializer
+    http_method_names = ('get', 'post', 'patch', 'delete')
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class PostViewSet(ModelViewSet):
+    queryset: QuerySet = Post.objects.all()
+    serializer_class = PostSerializer
+    http_method_names = ('get', 'post', 'patch', 'delete')
+    filter_backends: Tuple = (DjangoFilterBackend, )
+    permission_classes = (IsAuthenticated,)
+    search_fields: Tuple = ('date',)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        # print(request.query_params)
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
