@@ -5,11 +5,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Comment(models.Model):
-    # username = models.ForeignKey(
-    #     to=get_user_model(), on_delete=models.SET_NULL,
-    #     null=True, related_name='post',
-    #     verbose_name=_('username'), help_text=_('username')
-    # )
     user = models.ForeignKey(
         to=get_user_model(), on_delete=models.SET_NULL,
         null=True, related_name='comment',

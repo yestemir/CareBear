@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 class Post(models.Model):
     text = models.CharField(
-        verbose_name=_('comment'), help_text=_('comment'),
+        verbose_name=_('text'), help_text=_('text'),
         max_length=1000, default='', blank=True, null=True
     )
     user = models.ForeignKey(
@@ -14,11 +14,6 @@ class Post(models.Model):
         null=True, related_name='post',
         verbose_name=_('user'), help_text=_('user')
     )
-    # username = models.ForeignKey(
-    #     to=get_user_model(), on_delete=models.SET_NULL,
-    #     null=True, related_name='post',
-    #     verbose_name=_('username'), help_text=_('username')
-    # )
     created = models.DateTimeField(
         auto_now_add=True, help_text=_('created_at'),
         verbose_name=_('created_at'),

@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a17e0116-2869-4f39-a8ec-72beafeeab4d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/library/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/migrations/0025_auto_20220418_2237.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/models/comment.py" beforeDir="false" afterPath="$PROJECT_DIR$/library/models/comment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/models/post.py" beforeDir="false" afterPath="$PROJECT_DIR$/library/models/post.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/library/serializers.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +40,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlite" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -86,7 +90,7 @@
       <workItem from="1649334414037" duration="5499000" />
       <workItem from="1649756054638" duration="2341000" />
       <workItem from="1649963002727" duration="5174000" />
-      <workItem from="1650297796698" duration="4623000" />
+      <workItem from="1650297796698" duration="9804000" />
     </task>
     <servers />
   </component>

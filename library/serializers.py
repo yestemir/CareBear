@@ -78,6 +78,8 @@ class HealthCheckSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    created = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
+
     def get_username(self, obj):
         return obj.user.username
 
@@ -96,6 +98,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(many=True)
+    created = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
 
     def get_username(self, obj):
         return obj.user.username
