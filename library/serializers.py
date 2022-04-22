@@ -32,8 +32,8 @@ def get_last_active_checkbox_data(user_id: int):
     return checkbox_data
 
 
-def update_all_active_checkbox_data(data, date):
-    health_statuses = HealthStatus.objects.filter(user_id=data['user_id']).filter(date__gte=date)
+def update_all_active_checkbox_data(user_id: int, data, date):
+    health_statuses = HealthStatus.objects.filter(user_id=user_id).filter(date__gte=date)
     print(health_statuses)
     for health_status in health_statuses:
         checkboxes = health_status.checkbox.all()
@@ -49,6 +49,7 @@ def update_all_active_checkbox_data(data, date):
                     new_data.pop('id')
                 new_data['health_status'] = health_status
                 Checkbox.objects.create(**new_data)
+
 
 class HealthCheckSerializer(serializers.ModelSerializer):
     checkbox = CheckboxSerializer(many=True)
@@ -71,7 +72,7 @@ class HealthCheckSerializer(serializers.ModelSerializer):
         instance.comment = validated_data.get('comment', instance.comment)
         instance.save()
         for data in checkbox_data:
-            update_all_active_checkbox_data(data, validated_data.get('date', instance.date))
+            update_all_active_checkbox_data(validated_data.get('user'), data, validated_data.get('date', instance.date))
             data['health_status'] = instance
             data['user_id'] = instance.user
             if data.get('id') is not None:
