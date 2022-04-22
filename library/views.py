@@ -83,7 +83,7 @@ class CommentViewSet(ModelViewSet):
         serializer.save(user_id=self.request.user)
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        queryset = self.get_queryset().order_by('-created')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
@@ -105,7 +105,7 @@ class PostViewSet(ModelViewSet):
         serializer.save(user=self.request.user)
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        queryset = self.get_queryset().order_by('-created')
         # print(request.query_params)
         page = self.paginate_queryset(queryset)
         if page is not None:
