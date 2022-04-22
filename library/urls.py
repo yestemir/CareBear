@@ -18,9 +18,9 @@ router.register(
 router.register(
     prefix='posts', viewset=PostViewSet, basename='post',
 )
-# router.register(
-#     prefix='saved_books', viewset=SavedBookViewSet, basename='saved_books',
-# )
+router.register(
+    prefix='comments', viewset=CommentViewSet, basename='comments',
+)
 # router.register(
 #     prefix='genres', viewset=GenreViewSet, basename='genres',
 # )
