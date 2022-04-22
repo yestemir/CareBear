@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.forms import model_to_dict
 from rest_framework import serializers
+from django.db.models import Q
+import datetime
 
 from library.models import HealthStatus, Checkbox, Post, Comment
 
@@ -30,15 +32,23 @@ def get_last_active_checkbox_data(user_id: int):
     return checkbox_data
 
 
-def update_all_active_checkbox_data(user_id: int, name, is_active):
-    health_statuses = HealthStatus.objects.filter(user_id=user_id).order_by('date').all()
+def update_all_active_checkbox_data(data, date):
+    health_statuses = HealthStatus.objects.filter(user_id=data['user_id']).filter(date__gte=date)
+    print(health_statuses)
     for health_status in health_statuses:
-        for data in health_status.checkbox.all():
-            if data.name == name:
-                data.everyday = is_active
-                checkbox_data = model_to_dict(data)
-                Checkbox.objects.filter(pk=data.id).update(**checkbox_data)
-
+        checkboxes = health_status.checkbox.all()
+        checkbox = checkboxes.filter(name=data['name']).last()
+        if checkbox is not None:
+            checkbox.everyday = data['everyday']
+            checkbox_data = model_to_dict(checkbox)
+            Checkbox.objects.filter(pk=checkbox.id).update(**checkbox_data)
+        else:
+            if data['everyday']:
+                new_data = data
+                if data.get('id') is not None:
+                    new_data.pop('id')
+                new_data['health_status'] = health_status
+                Checkbox.objects.create(**new_data)
 
 class HealthCheckSerializer(serializers.ModelSerializer):
     checkbox = CheckboxSerializer(many=True)
@@ -61,11 +71,11 @@ class HealthCheckSerializer(serializers.ModelSerializer):
         instance.comment = validated_data.get('comment', instance.comment)
         instance.save()
         for data in checkbox_data:
+            update_all_active_checkbox_data(data, validated_data.get('date', instance.date))
             data['health_status'] = instance
             data['user_id'] = instance.user
             if data.get('id') is not None:
                 Checkbox.objects.filter(pk=data.pop('id')).update(**data)
-                update_all_active_checkbox_data(data['user_id'], data['name'], data['everyday'])
             else:
                 Checkbox.objects.create(**data)
         return instance
