@@ -33,7 +33,7 @@ def get_last_active_checkbox_data(user_id: int):
 
 
 def update_all_active_checkbox_data(user_id: int, data, date):
-    health_statuses = HealthStatus.objects.filter(user_id=user_id).filter(date__gte=date)
+    health_statuses = HealthStatus.objects.filter(user_id=user_id).filter(date__gt=date)
     print(health_statuses)
     for health_status in health_statuses:
         checkboxes = health_status.checkbox.all()
