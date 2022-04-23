@@ -108,7 +108,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    comment = CommentSerializer(many=True)
+    comment = CommentSerializer(many=True, required=False)
     created = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
 
     def get_username(self, obj):
@@ -117,7 +117,9 @@ class PostSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
 
     def create(self, validated_data):
-        comment_data = validated_data.pop('comment')
+        comment_data = []
+        if validated_data.get('comment') is not None:
+            comment_data = validated_data.pop('comment')
         post = Post.objects.create(**validated_data)
         post.save()
         for data in comment_data:
@@ -128,7 +130,9 @@ class PostSerializer(serializers.ModelSerializer):
         return post
 
     def update(self, instance, validated_data):
-        comment_data = validated_data.pop('comment')
+        comment_data = []
+        if validated_data.get('comment') is not None:
+            comment_data = validated_data.pop('comment')
         instance.text = validated_data.get('text', instance.text)
         instance.save()
         for data in comment_data:
