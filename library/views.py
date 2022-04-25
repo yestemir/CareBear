@@ -9,7 +9,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-
+from .paginations import CustomPagination
 from library.models import HealthStatus, Checkbox, Comment, Post
 from library.serializers import (
         UserSerializer, HealthCheckSerializer, CheckboxSerializer, CommentSerializer, PostSerializer
@@ -17,6 +17,7 @@ from library.serializers import (
 
 
 class HealthStatusViewSet(ModelViewSet):
+    pagination_class = CustomPagination
     queryset: QuerySet = HealthStatus.objects.all()
     serializer_class = HealthCheckSerializer
     http_method_names = ('get', 'post', 'patch', 'delete')
@@ -52,6 +53,7 @@ class HealthStatusViewSet(ModelViewSet):
 
 
 class CheckboxViewSet(ModelViewSet):
+    pagination_class = CustomPagination
     queryset: QuerySet = Checkbox.objects.all()
     serializer_class = CheckboxSerializer
     http_method_names = ('get', 'post', 'patch', 'delete')
@@ -74,6 +76,7 @@ class CheckboxViewSet(ModelViewSet):
 
 
 class CommentViewSet(ModelViewSet):
+    pagination_class = CustomPagination
     queryset: QuerySet = Comment.objects.all()
     serializer_class = CommentSerializer
     http_method_names = ('get', 'post', 'patch', 'delete')
@@ -94,6 +97,7 @@ class CommentViewSet(ModelViewSet):
 
 
 class PostViewSet(ModelViewSet):
+    pagination_class = CustomPagination
     queryset: QuerySet = Post.objects.all()
     serializer_class = PostSerializer
     http_method_names = ('get', 'post', 'patch', 'delete')
@@ -117,6 +121,7 @@ class PostViewSet(ModelViewSet):
 
 
 class UserViewSet(ModelViewSet):
+    pagination_class = CustomPagination
     queryset: QuerySet = User.objects.all()
     serializer_class = UserSerializer
     http_method_names = ('get', 'post', 'patch', 'delete')
