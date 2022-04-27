@@ -85,8 +85,18 @@ class CommentViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def filter_post_id(self, post_id: dict, queryset):
+        print(post_id, "aaaa")
+        query_set = queryset
+        if post_id is None:
+            return queryset
+        if post_id.get('post_id') is not None:
+            query_set = Comment.objects.filter(post=post_id.get('post_id'))
+        return query_set
+
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset().order_by('-created')
+        queryset = self.filter_post_id(request.query_params, queryset)
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
