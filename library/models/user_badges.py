@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 
 
 class UserBadge(models.Model):
-    badge = models.CharField(
+    badge = models.ForeignKey(
         to='library.Badge', on_delete=models.SET_NULL,
         null=True, related_name='user_badge',
         verbose_name=_('badge'), help_text=_('badge')
