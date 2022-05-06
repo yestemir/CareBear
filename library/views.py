@@ -172,6 +172,12 @@ class UserViewSet(ModelViewSet):
         data = UserService(user_id=request.user.pk).get_statistics()
         return Response(data=data)
 
+    @action(detail=False, methods=('get',))
+    def get_statistics_last_week(self, request):
+        data = UserService(user_id=request.user.pk).get_statistics_last_week()
+        return Response(data=data)
+
+
 
 class CustomAuthToken(ObtainAuthToken):
 

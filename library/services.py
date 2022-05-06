@@ -64,3 +64,42 @@ class UserService:
             "number_of_good_days": number_of_good_days['id__count'],
             "average_mood_percent": average_mood_percent['health_status__mood_percentage__avg'],
         }
+
+    def get_statistics_last_week(self):
+        date = datetime.date.today()
+        # start_week = date - datetime.timedelta(date.weekday())
+        # end_week = start_week + datetime.timedelta(7)
+        health_status = HealthStatus.objects.filter(user_id=self.user_id)
+        print("aaa", health_status)
+        seven_days_ago = 0
+        six_days_ago = 0
+        five_days_ago = 0
+        four_days_ago = 0
+        three_days_ago = 0
+        two_days_ago = 0
+        one_day_ago = 0
+        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
+            seven_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=7)).first().get('mood_percentage')
+        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
+            six_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=6)).first().get('mood_percentage')
+        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
+            five_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=5)).first().get('mood_percentage')
+        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
+            four_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=4)).first().get('mood_percentage')
+        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
+            three_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=3)).first().get('mood_percentage')
+        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
+            two_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=2)).first().get('mood_percentage')
+        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
+            one_day_ago = health_status.filter(date__exact=date - datetime.timedelta(days=1)).first().get('mood_percentage')
+
+
+        return {
+            "seven_days_ago": seven_days_ago,
+            "six_days_ago": six_days_ago,
+            "five_days_ago": five_days_ago,
+            "four_days_ago": four_days_ago,
+            "three_days_ago": three_days_ago,
+            "two_days_ago": two_days_ago,
+            "one_day_ago": one_day_ago,
+        }
