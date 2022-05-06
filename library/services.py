@@ -79,19 +79,19 @@ class UserService:
         two_days_ago = 0
         one_day_ago = 0
         if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
-            seven_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=7)).first().get('mood_percentage')
-        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
-            six_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=6)).first().get('mood_percentage')
-        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
-            five_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=5)).first().get('mood_percentage')
-        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
-            four_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=4)).first().get('mood_percentage')
-        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
-            three_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=3)).first().get('mood_percentage')
-        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
-            two_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=2)).first().get('mood_percentage')
-        if health_status.filter(date__exact=date - datetime.timedelta(days=7)).first() is not None:
-            one_day_ago = health_status.filter(date__exact=date - datetime.timedelta(days=1)).first().get('mood_percentage')
+            seven_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=7)).first().mood_percentage
+        if health_status.filter(date__exact=date - datetime.timedelta(days=6)).first() is not None:
+            six_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=6)).first().mood_percentage
+        if health_status.filter(date__exact=date - datetime.timedelta(days=5)).first() is not None:
+            five_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=5)).first().mood_percentage
+        if health_status.filter(date__exact=date - datetime.timedelta(days=4)).first() is not None:
+            four_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=4)).first().mood_percentage
+        if health_status.filter(date__exact=date - datetime.timedelta(days=3)).first() is not None:
+            three_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=3)).first().mood_percentage
+        if health_status.filter(date__exact=date - datetime.timedelta(days=2)).first() is not None:
+            two_days_ago = health_status.filter(date__exact=date - datetime.timedelta(days=2)).first().mood_percentage
+        if health_status.filter(date__exact=date - datetime.timedelta(days=1)).first() is not None:
+            one_day_ago = health_status.filter(date__exact=date - datetime.timedelta(days=1)).first().mood_percentage
 
 
         return {
