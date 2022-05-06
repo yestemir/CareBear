@@ -14,6 +14,7 @@ from library.models import HealthStatus, Checkbox, Comment, Post
 from library.serializers import (
         UserSerializer, HealthCheckSerializer, CheckboxSerializer, CommentSerializer, PostSerializer
 )
+from .services import CheckboxService
 
 
 class HealthStatusViewSet(ModelViewSet):
@@ -149,3 +150,7 @@ class UserViewSet(ModelViewSet):
         self.perform_update(serializer)
         return Response(serializer.data)
 
+    @action(detail=False, methods=('get',))
+    def statistics(self, request):
+        data = CheckboxService().get_statistics()
+        return Response(data=data)
