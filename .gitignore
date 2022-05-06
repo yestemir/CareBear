@@ -6,3 +6,4 @@ getting-started/*
 /.env
 /.idea/
 env/
+**/.idea/workspace.xml
