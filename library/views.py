@@ -12,9 +12,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from .paginations import CustomPagination
-from library.models import HealthStatus, Checkbox, Comment, Post
+from library.models import HealthStatus, Checkbox, Comment, Post, UserBadge
 from library.serializers import (
-        UserSerializer, HealthCheckSerializer, CheckboxSerializer, CommentSerializer, PostSerializer
+        UserSerializer, HealthCheckSerializer, CheckboxSerializer, CommentSerializer,
+        PostSerializer, UserBadgesSerializer
 )
 from .services import UserService
 
@@ -64,6 +65,20 @@ class CheckboxViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', True)
+        checkbox_id = kwargs.get('pk')
+        is_completing_task = request.data.get('done', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        data = serializer.data
+        if is_completing_task is True:
+            perfect_day = UserService(user_id=request.user.pk).check_if_perfect_day(checkbox_id=checkbox_id)
+            data['perfect_day'] = perfect_day
+        return Response(data)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(
@@ -176,6 +191,21 @@ class CustomAuthToken(ObtainAuthToken):
 
 
 class UserBadgeViews(ModelViewSet):
+    queryset: QuerySet = UserBadge.objects.all()
+    pagination_class = CustomPagination
+    serializer_class = UserBadgesSerializer
+    http_method_names = ('get', 'delete')
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     @action(detail=False, methods=('get',))
     def current_steak(self, request):

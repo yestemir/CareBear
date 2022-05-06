@@ -4,7 +4,7 @@ from rest_framework import serializers
 from django.db.models import Q
 import datetime
 
-from library.models import HealthStatus, Checkbox, Post, Comment
+from library.models import HealthStatus, Checkbox, Post, Comment, UserBadge
 
 
 class CheckboxSerializer(serializers.ModelSerializer):
@@ -149,6 +149,19 @@ class PostSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'text', 'created', 'user', 'username', 'comment',
         )
+
+
+class UserBadgesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserBadge
+        fields = ('id', 'badge', 'have_seen', 'current_days_steak', 'current_perfect_days_steak',
+                  'current_good_days_steak', 'date', 'user',)
+        extra_kwargs = {
+            "id": {
+                "read_only": False,
+                "required": False,
+            },
+        }
 
 
 class UserSerializer(serializers.ModelSerializer):

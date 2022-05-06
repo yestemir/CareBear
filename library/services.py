@@ -2,7 +2,7 @@ import datetime
 
 from django.db.models import Count, Avg, F
 
-from library.models import Checkbox, UserBadge
+from library.models import Checkbox, UserBadge, HealthStatus
 
 
 class UserService:
@@ -23,10 +23,22 @@ class UserService:
                 user_badge.update(current_days_steak=1)
 
     def get_current_day_steak(self) -> dict:
-        days_count = UserBadge.objects.filter(user_id=self.user_id).last().current_days_steak
+        if UserBadge.objects.filter(user_id=self.user_id).last() is None:
+            self.create_badges_entity()
+            days_count = 1
+        else:
+            days_count = UserBadge.objects.filter(user_id=self.user_id).last().current_days_steak
         return {
-            "current_day_steak" : days_count
+            "current_day_steak": days_count
         }
+
+    def check_if_perfect_day(self, checkbox_id: int):
+        health_status_id = Checkbox.objects.filter(id=checkbox_id).last().health_status_id
+        total = Checkbox.objects.filter(health_status_id=health_status_id).aggregate(total=Count('id'))['total']
+        completed = Checkbox.objects.filter(health_status_id=health_status_id, done=True).aggregate(
+            completed=Count('id')
+        )['completed']
+        return total == completed
 
     def get_statistics(self):
         date = datetime.date.today()
