@@ -22,6 +22,10 @@ class UserBadge(models.Model):
         verbose_name=_('current_perfect_days_steak'), help_text=_('current_perfect_days_steak'),
         default=0,
     )
+    current_good_days_steak = models.IntegerField(
+        verbose_name=_('current_good_days_steak'), help_text=_('current_good_days_steak'),
+        default=0,
+    )
     user = models.ForeignKey(
         to=get_user_model(), on_delete=models.SET_NULL,
         null=True, related_name='user_badge',

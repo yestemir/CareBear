@@ -4,6 +4,6 @@ staticfiles
 db.sqlite3
 getting-started/*
 /.env
-/.idea/
+.idea/
 env/
 **/.idea/workspace.xml
