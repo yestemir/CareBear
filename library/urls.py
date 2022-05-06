@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from library.models import HealthStatus, Checkbox
 
 from library.views import (
-    UserViewSet, HealthStatusViewSet, CheckboxViewSet, PostViewSet, CommentViewSet
+    UserViewSet, HealthStatusViewSet, CheckboxViewSet, PostViewSet, CommentViewSet, CustomAuthToken
 )
 
 router = DefaultRouter()
@@ -28,5 +28,5 @@ router.register(
     prefix='users', viewset=UserViewSet, basename='users',
 )
 urlpatterns = router.urls + [
-    path(route='auth/', view=csrf_exempt(ObtainAuthToken.as_view())),
+    path(route='auth/', view=csrf_exempt(CustomAuthToken.as_view())),
 ]
