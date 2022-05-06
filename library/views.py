@@ -16,7 +16,7 @@ from library.models import HealthStatus, Checkbox, Comment, Post
 from library.serializers import (
         UserSerializer, HealthCheckSerializer, CheckboxSerializer, CommentSerializer, PostSerializer
 )
-from .services import CheckboxService
+from .services import UserService
 
 
 class HealthStatusViewSet(ModelViewSet):
@@ -154,7 +154,7 @@ class UserViewSet(ModelViewSet):
 
     @action(detail=False, methods=('get',))
     def statistics(self, request):
-        data = CheckboxService().get_statistics()
+        data = UserService(user_id=request.user.pk).get_statistics()
         return Response(data=data)
 
 
@@ -167,8 +167,17 @@ class CustomAuthToken(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
+        UserService(user_id=request.user.pk).update_day_steak()
         return Response({
             'token': token.key,
             'user_id': user.pk,
             'email': user.email
         })
+
+
+class UserBadgeViews(ModelViewSet):
+
+    @action(detail=False, methods=('get',))
+    def current_steak(self, request):
+        data = UserService(user_id=request.user.pk).get_current_day_steak()
+        return Response(data=data)

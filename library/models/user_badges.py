@@ -26,11 +26,16 @@ class UserBadge(models.Model):
         verbose_name=_('current_good_days_steak'), help_text=_('current_good_days_steak'),
         default=0,
     )
+    date = models.DateField(
+        verbose_name=_('date'), help_text=_('date'), blank=True,
+        null=True,
+    )
     user = models.ForeignKey(
         to=get_user_model(), on_delete=models.SET_NULL,
         null=True, related_name='user_badge',
         verbose_name=_('user'), help_text=_('user')
     )
+
 
     objects: Manager
 
