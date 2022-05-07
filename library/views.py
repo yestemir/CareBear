@@ -12,10 +12,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from .paginations import CustomPagination
-from library.models import HealthStatus, Checkbox, Comment, Post, UserBadge
+from library.models import HealthStatus, Checkbox, Comment, Post, UserBadge, Test
 from library.serializers import (
         UserSerializer, HealthCheckSerializer, CheckboxSerializer, CommentSerializer,
-        PostSerializer, UserBadgesSerializer
+        PostSerializer, UserBadgesSerializer, TestSerializer
 )
 from .services import UserService
 
@@ -123,27 +123,27 @@ class CommentViewSet(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-# class TestViewSet(ModelViewSet):
-#     pagination_class = CustomPagination
-#     queryset: QuerySet = Test.objects.all()
-#     serializer_class = TestSerializer
-#     http_method_names = ('get', 'post', 'patch', 'delete')
-#     permission_classes = (IsAuthenticated,)
-#
-#     def perform_create(self, serializer):
-#         serializer.save(user=self.request.user)
-#
-#     def list(self, request, *args, **kwargs):
-#         queryset = self.get_queryset().filter(
-#             user=request.user.pk
-#         )
-#         page = self.paginate_queryset(queryset)
-#         if page is not None:
-#             serializer = self.get_serializer(page, many=True)
-#             return self.get_paginated_response(serializer.data)
-#
-#         serializer = self.get_serializer(queryset, many=True)
-#         return Response(serializer.data)
+class TestViewSet(ModelViewSet):
+    pagination_class = CustomPagination
+    queryset: QuerySet = Test.objects.all()
+    serializer_class = TestSerializer
+    http_method_names = ('get', 'post', 'patch', 'delete')
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(
+            user=request.user.pk
+        )
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class PostViewSet(ModelViewSet):

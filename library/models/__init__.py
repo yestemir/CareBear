@@ -6,8 +6,9 @@ from .post import Post
 from .comment import Comment
 from .user_badges import UserBadge
 from .badges import Badge
+from .test import Test
 
 __all__: Tuple = (
     'HealthStatus', 'Checkbox', 'Post', 'Comment',
-    'Badge', 'UserBadge'
+    'Badge', 'UserBadge', 'Test'
 )

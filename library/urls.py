@@ -6,7 +6,7 @@ from library.models import HealthStatus, Checkbox
 
 from library.views import (
     UserViewSet, HealthStatusViewSet, CheckboxViewSet, PostViewSet, CommentViewSet,
-    CustomAuthToken, UserBadgeViews
+    CustomAuthToken, UserBadgeViews, TestViewSet
 )
 
 router = DefaultRouter()
@@ -25,9 +25,9 @@ router.register(
 router.register(
     prefix='user_badges', viewset=UserBadgeViews, basename='user_badges',
 )
-# router.register(
-#     prefix='test', viewset=TestViewSet, basename='test',
-# )
+router.register(
+    prefix='test', viewset=TestViewSet, basename='test',
+)
 router.register(
     prefix='users', viewset=UserViewSet, basename='users',
 )

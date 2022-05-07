@@ -2,7 +2,7 @@ import datetime
 
 from django.db.models import Count, Avg, F
 
-from library.models import Checkbox, UserBadge, HealthStatus
+from library.models import Checkbox, UserBadge, HealthStatus, Test
 
 
 class UserService:
@@ -103,51 +103,51 @@ class UserService:
             "one_day_ago": one_day_ago,
         }
 
-    # def get_test(self):
-    #     test = Test.objects.filter(user_id=self.user_id)
-    #
-    #     questions = [
-    #         'Little interest or pleasure in doing things',
-    #         'Feeling down, depressed, or hopeless'
-    #         'Trouble falling or staying asleep, or sleeping too much'
-    #         'Feeling tired or having little energy'
-    #         'Poor appetite or everything'
-    #         'Feeling bad about yourself-or that you are a failure or have let yourself or your family down'
-    #         'Trouble concentrating on things, such as reading the newspaper or watching television'
-    #         'Moving or speaking noticeably slower than usual or the opposite - faster than usual'
-    #         'Thoughts that you would be better off dead or of hurting yourself in some way'
-    #     ]
-    #     titles = [
-    #         'Minimal or no symptoms of depression',
-    #         'Mild depression',
-    #         'Moderate depression',
-    #         'Moderately severe depression',
-    #         'Severe depression'
-    #     ]
-    #     description = [
-    #         'Your results suggest minimal or no symptoms of depression.'
-    #         'Your results suggest that you may be experiencing some symptoms of mild depression.While your symptoms are likely not having a major impact on your life, it is important to monitor them. If you have been mildly depressed for a period of a few months, consider talking to your doctor about Dysthymia.'
-    #         'Your results suggest that you may be suffering from moderate depression.While this is not a diagnostic test, it might be worthwhile to start a conversation with your doctor of a trained mental health professional. Finding the right treatment plan can help you feel more like you again.'
-    #         'Your results suggest that you may be suffering from moderate severe depression.While this is not a diagnostic test, people who scored similar to you typically receive a diagnosis of major depression and have sought professional treatment for this disorder. It would likely be beneficial for you to consult a trained mental professional immediately.'
-    #         'Your results suggest that you may be suffering from moderate severe depression.While this is not a diagnostic test, people who scored similar to you typically receive a diagnosis of major depression and have sought professional treatment for this disorder. It would likely be beneficial for you to consult a trained mental professional immediately.'
-    #     ]
-    #
-    #     id_for_title = 0
-    #
-    #     if test.last().result % 5 == 0:
-    #         id_for_title = test.last().result // 5 - 1
-    #     else:
-    #         id_for_title = test.last().result // 5
-    #
-    #     self.min_result = min(test.last().result, self.min_result)
-    #     self.max_result = max(test.last().result, self.max_result)
-    #
-    #     return {
-    #         "questions": questions,
-    #         "time": test.last().date,
-    #         "result": test.last().result,
-    #         "max_result": self.max_result,
-    #         "min_result": self.min_result,
-    #         "result_title": titles[id_for_title],
-    #         "result_description": description[id_for_title],
-    #     }
+    def get_test(self):
+        test = Test.objects.filter(user_id=self.user_id)
+
+        questions = [
+            'Little interest or pleasure in doing things',
+            'Feeling down, depressed, or hopeless'
+            'Trouble falling or staying asleep, or sleeping too much'
+            'Feeling tired or having little energy'
+            'Poor appetite or everything'
+            'Feeling bad about yourself-or that you are a failure or have let yourself or your family down'
+            'Trouble concentrating on things, such as reading the newspaper or watching television'
+            'Moving or speaking noticeably slower than usual or the opposite - faster than usual'
+            'Thoughts that you would be better off dead or of hurting yourself in some way'
+        ]
+        titles = [
+            'Minimal or no symptoms of depression',
+            'Mild depression',
+            'Moderate depression',
+            'Moderately severe depression',
+            'Severe depression'
+        ]
+        description = [
+            'Your results suggest minimal or no symptoms of depression.'
+            'Your results suggest that you may be experiencing some symptoms of mild depression.While your symptoms are likely not having a major impact on your life, it is important to monitor them. If you have been mildly depressed for a period of a few months, consider talking to your doctor about Dysthymia.'
+            'Your results suggest that you may be suffering from moderate depression.While this is not a diagnostic test, it might be worthwhile to start a conversation with your doctor of a trained mental health professional. Finding the right treatment plan can help you feel more like you again.'
+            'Your results suggest that you may be suffering from moderate severe depression.While this is not a diagnostic test, people who scored similar to you typically receive a diagnosis of major depression and have sought professional treatment for this disorder. It would likely be beneficial for you to consult a trained mental professional immediately.'
+            'Your results suggest that you may be suffering from moderate severe depression.While this is not a diagnostic test, people who scored similar to you typically receive a diagnosis of major depression and have sought professional treatment for this disorder. It would likely be beneficial for you to consult a trained mental professional immediately.'
+        ]
+
+        id_for_title = 0
+
+        if test.last().result % 5 == 0:
+            id_for_title = test.last().result // 5 - 1
+        else:
+            id_for_title = test.last().result // 5
+
+        self.min_result = min(test.last().result, self.min_result)
+        self.max_result = max(test.last().result, self.max_result)
+
+        return {
+            "questions": questions,
+            "time": test.last().date,
+            "result": test.last().result,
+            "max_result": self.max_result,
+            "min_result": self.min_result,
+            "result_title": titles[id_for_title],
+            "result_description": description[id_for_title],
+        }
