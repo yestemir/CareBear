@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import Manager
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Test(models.Model):
@@ -10,24 +11,17 @@ class Test(models.Model):
         null=True, related_name='test',
         verbose_name=_('user'), help_text=_('user')
     )
-    # test_results = models.ForeignKey(
-    #     to='library.test_results', related_name='test',
-    #     on_delete=models.SET_NULL, null=True,
-    #     verbose_name=_('test_results'), help_text=_('test_results'),
-    # )
-    # test_attempts = models.ForeignKey(
-    #     to='library.test_attempts', related_name='test',
-    #     on_delete=models.SET_NULL, null=True,
-    #     verbose_name=_('test_attempts'), help_text=_('test_attempts'),
-    # )
-    # questions = models.CharField(
-    #     verbose_name=_('test'), help_text=_('test'),
-    #     max_length=1000, default='', blank=True
-    # )
-    # created = models.DateTimeField(
-    #     auto_now_add=True, help_text=_('created'),
-    #     verbose_name=_('created'),
-    # )
+    result = models.IntegerField(
+        verbose_name=_('result'), help_text=_('result'),
+        default=0, blank=True, validators=[
+            MaxValueValidator(100),
+            MinValueValidator(0)
+        ]
+    )
+    date = models.DateField(
+        verbose_name=_('date'), help_text=_('date'), blank=True,
+        null=True,
+    )
 
     objects: Manager
 

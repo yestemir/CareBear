@@ -194,64 +194,65 @@ class TestResultsSerializer(serializers.ModelSerializer):
 class TestSerializer(serializers.ModelSerializer):
     test_attempts = TestAttemptsSerializer(many=True, required=False)
     test_results = TestResultsSerializer(many=True, required=False)
+    date = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
 
-    def create(self, validated_data):
-        test_attempts_data = []
-        test_results_data = []
-        if validated_data.get('test_attempts') is not None:
-            test_attempts_data = validated_data.pop('test_attempts')
-
-        if validated_data.get('test_results') is not None:
-            test_results_data = validated_data.pop('test_results')
-
-        test = Test.objects.create(**validated_data)
-        test.save()
-
-        for data in test_attempts_data:
-            data['test'] = test
-            data['user'] = test.user
-            # data['username'] = post.username
-            TestAttempts.objects.create(**data)
-
-        for data in test_results_data:
-            data['test'] = test
-            data['user'] = test.user
-            # data['username'] = post.username
-            TestResults.objects.create(**data)
-
-        return test
-
-    def update(self, instance, validated_data):
-        test_attempts_data = []
-        test_results_data = []
-        if validated_data.get('test_attempts') is not None:
-            test_attempts_data = validated_data.pop('test_attempts')
-
-        if validated_data.get('test_results') is not None:
-            test_results_data = validated_data.pop('test_results')
-
-        instance.questions = validated_data.get('questions', instance.text)
-        instance.save()
-        for data in test_attempts_data:
-            data['post'] = instance
-            data['user'] = instance.user
-            if data.get('id') is not None:
-                TestAttempts.objects.filter(pk=data.pop('id')).update(**data)
-            else:
-                TestAttempts.objects.create(**data)
-
-        for data in test_results_data:
-            data['post'] = instance
-            data['user'] = instance.user
-            if data.get('id') is not None:
-                TestResults.objects.filter(pk=data.pop('id')).update(**data)
-            else:
-                TestResults.objects.create(**data)
-        return instance
+    # def create(self, validated_data):
+    #     test_attempts_data = []
+    #     test_results_data = []
+    #     if validated_data.get('test_attempts') is not None:
+    #         test_attempts_data = validated_data.pop('test_attempts')
+    #
+    #     if validated_data.get('test_results') is not None:
+    #         test_results_data = validated_data.pop('test_results')
+    #
+    #     test = Test.objects.create(**validated_data)
+    #     test.save()
+    #
+    #     for data in test_attempts_data:
+    #         data['test'] = test
+    #         data['user'] = test.user
+    #         # data['username'] = post.username
+    #         TestAttempts.objects.create(**data)
+    #
+    #     for data in test_results_data:
+    #         data['test'] = test
+    #         data['user'] = test.user
+    #         # data['username'] = post.username
+    #         TestResults.objects.create(**data)
+    #
+    #     return test
+    #
+    # def update(self, instance, validated_data):
+    #     test_attempts_data = []
+    #     test_results_data = []
+    #     if validated_data.get('test_attempts') is not None:
+    #         test_attempts_data = validated_data.pop('test_attempts')
+    #
+    #     if validated_data.get('test_results') is not None:
+    #         test_results_data = validated_data.pop('test_results')
+    #
+    #     instance.questions = validated_data.get('questions', instance.text)
+    #     instance.save()
+    #     for data in test_attempts_data:
+    #         data['post'] = instance
+    #         data['user'] = instance.user
+    #         if data.get('id') is not None:
+    #             TestAttempts.objects.filter(pk=data.pop('id')).update(**data)
+    #         else:
+    #             TestAttempts.objects.create(**data)
+    #
+    #     for data in test_results_data:
+    #         data['post'] = instance
+    #         data['user'] = instance.user
+    #         if data.get('id') is not None:
+    #             TestResults.objects.filter(pk=data.pop('id')).update(**data)
+    #         else:
+    #             TestResults.objects.create(**data)
+    #     return instance
 
     class Meta:
         model = Test
-        fields = ('id', 'user', 'test_attempts', 'test_results')
+        fields = ('id', 'user', 'result', 'date')
         extra_kwargs = {
             "id": {
                 "read_only": False,
