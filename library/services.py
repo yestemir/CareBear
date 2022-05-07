@@ -3,7 +3,7 @@ import datetime
 from django.db.models import Count, Avg, F
 
 from library.models import Checkbox, UserBadge, HealthStatus, Test
-
+from rest_framework import serializers
 
 class UserService:
     min_result = 0
@@ -104,6 +104,7 @@ class UserService:
         }
 
     def get_test(self):
+        # date = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
         test = Test.objects.filter(user_id=self.user_id)
 
         questions = [
@@ -144,7 +145,7 @@ class UserService:
 
         return {
             "questions": questions,
-            "time": test.last().date,
+            "time": test.last().date.__format__("%Y-%m-%d %H:%M"),
             "result": test.last().result,
             "max_result": self.max_result,
             "min_result": self.min_result,
