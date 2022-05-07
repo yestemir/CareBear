@@ -20,10 +20,6 @@ class Test(models.Model):
             MinValueValidator(0)
         ]
     )
-    date = models.DateTimeField(
-        default=datetime.datetime.now(), help_text=_('date'),
-        verbose_name=_('date'),
-    )
 
     objects: Manager
 
