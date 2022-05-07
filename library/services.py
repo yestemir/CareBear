@@ -126,11 +126,11 @@ class UserService:
             'Severe depression'
         ]
         description = [
-            'Your results suggest minimal or no symptoms of depression.'
-            'Your results suggest that you may be experiencing some symptoms of mild depression.While your symptoms are likely not having a major impact on your life, it is important to monitor them. If you have been mildly depressed for a period of a few months, consider talking to your doctor about Dysthymia.'
-            'Your results suggest that you may be suffering from moderate depression.While this is not a diagnostic test, it might be worthwhile to start a conversation with your doctor of a trained mental health professional. Finding the right treatment plan can help you feel more like you again.'
-            'Your results suggest that you may be suffering from moderate severe depression.While this is not a diagnostic test, people who scored similar to you typically receive a diagnosis of major depression and have sought professional treatment for this disorder. It would likely be beneficial for you to consult a trained mental professional immediately.'
-            'Your results suggest that you may be suffering from moderate severe depression.While this is not a diagnostic test, people who scored similar to you typically receive a diagnosis of major depression and have sought professional treatment for this disorder. It would likely be beneficial for you to consult a trained mental professional immediately.'
+            'Your results suggest minimal or no symptoms of depression.',
+            'Your results suggest that you may be experiencing some symptoms of mild depression.While your symptoms are likely not having a major impact on your life, it is important to monitor them. If you have been mildly depressed for a period of a few months, consider talking to your doctor about Dysthymia.',
+            'Your results suggest that you may be suffering from moderate depression.While this is not a diagnostic test, it might be worthwhile to start a conversation with your doctor of a trained mental health professional. Finding the right treatment plan can help you feel more like you again.',
+            'Your results suggest that you may be suffering from moderate severe depression.While this is not a diagnostic test, people who scored similar to you typically receive a diagnosis of major depression and have sought professional treatment for this disorder. It would likely be beneficial for you to consult a trained mental professional immediately.',
+            'Your results suggest that you may be suffering from moderate severe depression.While this is not a diagnostic test, people who scored similar to you typically receive a diagnosis of major depression and have sought professional treatment for this disorder. It would likely be beneficial for you to consult a trained mental professional immediately.',
         ]
 
         id_for_title = 0
