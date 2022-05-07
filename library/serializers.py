@@ -4,7 +4,8 @@ from rest_framework import serializers
 from django.db.models import Q
 import datetime
 
-from library.models import HealthStatus, Checkbox, Post, Comment, UserBadge
+from library.models import HealthStatus, Checkbox, Post, Comment, UserBadge, \
+    Test, TestAttempts, TestResults
 
 
 class CheckboxSerializer(serializers.ModelSerializer):
@@ -156,6 +157,101 @@ class UserBadgesSerializer(serializers.ModelSerializer):
         model = UserBadge
         fields = ('id', 'badge', 'have_seen', 'current_days_steak', 'current_perfect_days_steak',
                   'current_good_days_steak', 'date', 'user',)
+        extra_kwargs = {
+            "id": {
+                "read_only": False,
+                "required": False,
+            },
+        }
+
+
+class TestAttemptsSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
+
+    class Meta:
+        model = TestAttempts
+        fields = ('id', 'user', 'result', 'date', 'test')
+        extra_kwargs = {
+            "id": {
+                "read_only": False,
+                "required": False,
+            },
+        }
+
+
+class TestResultsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestResults
+        fields = ('id', 'user', 'min_result', 'max_result', 'title', 'test')
+        extra_kwargs = {
+            "id": {
+                "read_only": False,
+                "required": False,
+            },
+        }
+
+
+class TestSerializer(serializers.ModelSerializer):
+    test_attempts = TestAttemptsSerializer(many=True)
+    test_results = TestResultsSerializer(many=True)
+
+    def create(self, validated_data):
+        test_attempts_data = []
+        test_results_data = []
+        if validated_data.get('test_attempts') is not None:
+            test_attempts_data = validated_data.pop('test_attempts')
+
+        if validated_data.get('test_results') is not None:
+            test_results_data = validated_data.pop('test_results')
+
+        test = Test.objects.create(**validated_data)
+        test.save()
+
+        for data in test_attempts_data:
+            data['test'] = test
+            data['user'] = test.user
+            # data['username'] = post.username
+            Test.objects.create(**data)
+
+        for data in test_results_data:
+            data['test'] = test
+            data['user'] = test.user
+            # data['username'] = post.username
+            Test.objects.create(**data)
+
+        return test
+
+    def update(self, instance, validated_data):
+        test_attempts_data = []
+        test_results_data = []
+        if validated_data.get('test_attempts') is not None:
+            test_attempts_data = validated_data.pop('test_attempts')
+
+        if validated_data.get('test_results') is not None:
+            test_results_data = validated_data.pop('test_results')
+
+        instance.questions = validated_data.get('questions', instance.text)
+        instance.save()
+        for data in test_attempts_data:
+            data['post'] = instance
+            data['user'] = instance.user
+            if data.get('id') is not None:
+                Comment.objects.filter(pk=data.pop('id')).update(**data)
+            else:
+                Comment.objects.create(**data)
+
+        for data in test_results_data:
+            data['post'] = instance
+            data['user'] = instance.user
+            if data.get('id') is not None:
+                Comment.objects.filter(pk=data.pop('id')).update(**data)
+            else:
+                Comment.objects.create(**data)
+        return instance
+
+    class Meta:
+        model = Test
+        fields = ('id', 'user', 'questions', 'test_attempts', 'test_results')
         extra_kwargs = {
             "id": {
                 "read_only": False,
