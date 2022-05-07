@@ -117,6 +117,9 @@ class UserService:
 
         return {
             "questions": questions,
-            "testAttempts": test_attempts,
-            "testResults": test_results,
+            "last_attempt_result": test_attempts.last().result,
+            "last_attempt_date": test_attempts.last().result,
+            "max_result": test_results.last().max_result,
+            "min_result": test_results.last().min_result,
+            "last_result_title": test_results.last().title,
         }
