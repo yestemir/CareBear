@@ -20,10 +20,10 @@ class Test(models.Model):
     #     on_delete=models.SET_NULL, null=True,
     #     verbose_name=_('test_attempts'), help_text=_('test_attempts'),
     # )
-    questions = models.CharField(
-        verbose_name=_('test'), help_text=_('test'),
-        max_length=1000, default='', blank=True
-    )
+    # questions = models.CharField(
+    #     verbose_name=_('test'), help_text=_('test'),
+    #     max_length=1000, default='', blank=True
+    # )
     # created = models.DateTimeField(
     #     auto_now_add=True, help_text=_('created'),
     #     verbose_name=_('created'),

@@ -2,7 +2,7 @@ import datetime
 
 from django.db.models import Count, Avg, F
 
-from library.models import Checkbox, UserBadge, HealthStatus
+from library.models import Checkbox, UserBadge, HealthStatus, TestResults, TestAttempts, Test
 
 
 class UserService:
@@ -67,10 +67,7 @@ class UserService:
 
     def get_statistics_last_week(self):
         date = datetime.date.today()
-        # start_week = date - datetime.timedelta(date.weekday())
-        # end_week = start_week + datetime.timedelta(7)
         health_status = HealthStatus.objects.filter(user_id=self.user_id)
-        print("aaa", health_status)
         seven_days_ago = 0
         six_days_ago = 0
         five_days_ago = 0
@@ -93,7 +90,6 @@ class UserService:
         if health_status.filter(date__exact=date - datetime.timedelta(days=1)).first() is not None:
             one_day_ago = health_status.filter(date__exact=date - datetime.timedelta(days=1)).first().mood_percentage
 
-
         return {
             "seven_days_ago": seven_days_ago,
             "six_days_ago": six_days_ago,
@@ -102,4 +98,25 @@ class UserService:
             "three_days_ago": three_days_ago,
             "two_days_ago": two_days_ago,
             "one_day_ago": one_day_ago,
+        }
+
+    def get_test(self):
+        test_attempts = TestAttempts.objects.filter(user_id=self.user_id)
+        test_results = TestResults.objects.filter(user_id=self.user_id)
+        questions = [
+            'Little interest or pleasure in doing things',
+            'Feeling down, depressed, or hopeless'
+            'Trouble falling or staying asleep, or sleeping too much'
+            'Feeling tired or having little energy'
+            'Poor appetite or everything'
+            'Feeling bad about yourself-or that you are a failure or have let yourself or your family down'
+            'Trouble concentrating on things, such as reading the newspaper or watching television'
+            'Moving or speaking noticeably slower than usual or the opposite - faster than usual'
+            'Thoughts that you would be better off dead or of hurting yourself in some way'
+        ]
+
+        return {
+            "questions": questions,
+            "testAttempts": test_attempts,
+            "testResults": test_results,
         }

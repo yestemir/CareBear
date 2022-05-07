@@ -236,17 +236,17 @@ class TestSerializer(serializers.ModelSerializer):
             data['post'] = instance
             data['user'] = instance.user
             if data.get('id') is not None:
-                Comment.objects.filter(pk=data.pop('id')).update(**data)
+                TestAttempts.objects.filter(pk=data.pop('id')).update(**data)
             else:
-                Comment.objects.create(**data)
+                TestAttempts.objects.create(**data)
 
         for data in test_results_data:
             data['post'] = instance
             data['user'] = instance.user
             if data.get('id') is not None:
-                Comment.objects.filter(pk=data.pop('id')).update(**data)
+                TestResults.objects.filter(pk=data.pop('id')).update(**data)
             else:
-                Comment.objects.create(**data)
+                TestResults.objects.create(**data)
         return instance
 
     class Meta:
