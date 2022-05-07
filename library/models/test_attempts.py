@@ -19,12 +19,12 @@ class TestAttempts(models.Model):
             MinValueValidator(0)
         ]
     )
-    date = models.DateField(
-        verbose_name=_('date'), help_text=_('date'),
-        default=datetime.date.today(), blank=True,
+    date = models.DateTimeField(
+        auto_now_add=True, help_text=_('date'),
+        verbose_name=_('date'),
     )
     test = models.ForeignKey(
-        to='library.test', related_name='test_attempt',
+        to='library.test', related_name='test_attempts',
         on_delete=models.SET_NULL, null=True,
         verbose_name=_('test'), help_text=_('test'),
     )

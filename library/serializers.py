@@ -192,8 +192,8 @@ class TestResultsSerializer(serializers.ModelSerializer):
 
 
 class TestSerializer(serializers.ModelSerializer):
-    test_attempts = TestAttemptsSerializer(many=True)
-    test_results = TestResultsSerializer(many=True)
+    test_attempts = TestAttemptsSerializer(many=True, required=False)
+    test_results = TestResultsSerializer(many=True, required=False)
 
     def create(self, validated_data):
         test_attempts_data = []
@@ -211,13 +211,13 @@ class TestSerializer(serializers.ModelSerializer):
             data['test'] = test
             data['user'] = test.user
             # data['username'] = post.username
-            Test.objects.create(**data)
+            TestAttempts.objects.create(**data)
 
         for data in test_results_data:
             data['test'] = test
             data['user'] = test.user
             # data['username'] = post.username
-            Test.objects.create(**data)
+            TestResults.objects.create(**data)
 
         return test
 
@@ -251,7 +251,7 @@ class TestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Test
-        fields = ('id', 'user', 'questions', 'test_attempts', 'test_results')
+        fields = ('id', 'user', 'test_attempts', 'test_results')
         extra_kwargs = {
             "id": {
                 "read_only": False,
