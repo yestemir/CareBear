@@ -4,8 +4,7 @@ from rest_framework import serializers
 from django.db.models import Q
 import datetime
 
-from library.models import HealthStatus, Checkbox, Post, Comment, UserBadge, \
-    Test, TestAttempts, TestResults
+from library.models import HealthStatus, Checkbox, Post, Comment, UserBadge
 
 
 class CheckboxSerializer(serializers.ModelSerializer):
@@ -165,100 +164,18 @@ class UserBadgesSerializer(serializers.ModelSerializer):
         }
 
 
-class TestAttemptsSerializer(serializers.ModelSerializer):
-    date = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
-
-    class Meta:
-        model = TestAttempts
-        fields = ('id', 'user', 'result', 'date', 'test')
-        extra_kwargs = {
-            "id": {
-                "read_only": False,
-                "required": False,
-            },
-        }
-
-
-class TestResultsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TestResults
-        fields = ('id', 'user', 'min_result', 'max_result', 'title', 'test')
-        extra_kwargs = {
-            "id": {
-                "read_only": False,
-                "required": False,
-            },
-        }
-
-
-class TestSerializer(serializers.ModelSerializer):
-    # test_attempts = TestAttemptsSerializer(many=True, required=False)
-    # test_results = TestResultsSerializer(many=True, required=False)
-    date = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
-
-    # def create(self, validated_data):
-    #     test_attempts_data = []
-    #     test_results_data = []
-    #     if validated_data.get('test_attempts') is not None:
-    #         test_attempts_data = validated_data.pop('test_attempts')
-    #
-    #     if validated_data.get('test_results') is not None:
-    #         test_results_data = validated_data.pop('test_results')
-    #
-    #     test = Test.objects.create(**validated_data)
-    #     test.save()
-    #
-    #     for data in test_attempts_data:
-    #         data['test'] = test
-    #         data['user'] = test.user
-    #         # data['username'] = post.username
-    #         TestAttempts.objects.create(**data)
-    #
-    #     for data in test_results_data:
-    #         data['test'] = test
-    #         data['user'] = test.user
-    #         # data['username'] = post.username
-    #         TestResults.objects.create(**data)
-    #
-    #     return test
-    #
-    # def update(self, instance, validated_data):
-    #     test_attempts_data = []
-    #     test_results_data = []
-    #     if validated_data.get('test_attempts') is not None:
-    #         test_attempts_data = validated_data.pop('test_attempts')
-    #
-    #     if validated_data.get('test_results') is not None:
-    #         test_results_data = validated_data.pop('test_results')
-    #
-    #     instance.questions = validated_data.get('questions', instance.text)
-    #     instance.save()
-    #     for data in test_attempts_data:
-    #         data['post'] = instance
-    #         data['user'] = instance.user
-    #         if data.get('id') is not None:
-    #             TestAttempts.objects.filter(pk=data.pop('id')).update(**data)
-    #         else:
-    #             TestAttempts.objects.create(**data)
-    #
-    #     for data in test_results_data:
-    #         data['post'] = instance
-    #         data['user'] = instance.user
-    #         if data.get('id') is not None:
-    #             TestResults.objects.filter(pk=data.pop('id')).update(**data)
-    #         else:
-    #             TestResults.objects.create(**data)
-    #     return instance
-
-    class Meta:
-        model = Test
-        fields = ('id', 'user', 'result', 'date')
-        extra_kwargs = {
-            "id": {
-                "read_only": False,
-                "required": False,
-            },
-        }
+# class TestSerializer(serializers.ModelSerializer):
+#     date = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
+#
+#     class Meta:
+#         model = Test
+#         fields = ('id', 'user', 'result', 'date')
+#         extra_kwargs = {
+#             "id": {
+#                 "read_only": False,
+#                 "required": False,
+#             },
+#         }
 
 
 class UserSerializer(serializers.ModelSerializer):
