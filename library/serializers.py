@@ -192,8 +192,8 @@ class TestResultsSerializer(serializers.ModelSerializer):
 
 
 class TestSerializer(serializers.ModelSerializer):
-    test_attempts = TestAttemptsSerializer(many=True, required=False)
-    test_results = TestResultsSerializer(many=True, required=False)
+    # test_attempts = TestAttemptsSerializer(many=True, required=False)
+    # test_results = TestResultsSerializer(many=True, required=False)
     date = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
 
     # def create(self, validated_data):

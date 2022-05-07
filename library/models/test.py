@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import Manager
@@ -18,9 +20,9 @@ class Test(models.Model):
             MinValueValidator(0)
         ]
     )
-    date = models.DateField(
-        verbose_name=_('date'), help_text=_('date'), blank=True,
-        null=True,
+    date = models.DateTimeField(
+        default=datetime.datetime.now(), help_text=_('date'),
+        verbose_name=_('date'),
     )
 
     objects: Manager
