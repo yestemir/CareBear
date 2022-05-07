@@ -20,6 +20,10 @@ class Test(models.Model):
             MinValueValidator(0)
         ]
     )
+    # date = models.DateTimeField(
+    #     auto_now_add=True, help_text=_('date'),
+    #     verbose_name=_('date'), blank=True
+    # )
 
     objects: Manager
 

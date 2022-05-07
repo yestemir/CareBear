@@ -7,7 +7,8 @@
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
-      <user-name>uttrjjrhcobiou</user-name>
+      <auth-provider>pgpass</auth-provider>
+      <user-name>rabbitmq</user-name>
       <schema-mapping>
         <introspection-scope>
           <node kind="database" qname="@">
@@ -15,6 +16,11 @@
           </node>
         </introspection-scope>
       </schema-mapping>
+    </data-source>
+    <data-source name="PostgreSQL" uuid="0b54f7e3-eee0-442f-af1a-b193e12d98d5">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" exact-version="0" />
+      <secret-storage>master_key</secret-storage>
+      <schema-mapping />
     </data-source>
   </component>
 </project>
