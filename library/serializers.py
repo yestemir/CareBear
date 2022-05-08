@@ -197,6 +197,7 @@ class TestSerializer(serializers.ModelSerializer):
         id_title = find_title(result)
         title = titles[id_title]
         description = descriptions[id_title]
+        test.result = result
         test.title = title
         test.description = description
         return test
