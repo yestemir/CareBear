@@ -136,7 +136,7 @@ class TestViewSet(ModelViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(
             user=request.user.pk
-        )
+        ).order_by('-date')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)

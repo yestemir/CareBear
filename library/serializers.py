@@ -200,6 +200,7 @@ class TestSerializer(serializers.ModelSerializer):
         test.result = result
         test.title = title
         test.description = description
+        test.save()
         return test
 
     class Meta:
