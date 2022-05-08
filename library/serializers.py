@@ -179,8 +179,8 @@ descriptions = [
 
 def find_title(result: int):
     id_for_title = 0
-    if result % 5 == 0:
-        id_for_title = result // 5 - 1
+    if result >= 20:
+        id_for_title = 4
     else:
         id_for_title = result // 5
 
