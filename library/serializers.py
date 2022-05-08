@@ -95,7 +95,6 @@ class CommentSerializer(serializers.ModelSerializer):
         return obj.user.username
 
     username = serializers.SerializerMethodField()
-
     class Meta:
         model = Comment
         fields = ('id', 'text', 'post', 'created', 'user', 'username')
@@ -163,15 +162,58 @@ class UserBadgesSerializer(serializers.ModelSerializer):
             },
         }
 
+titles = [
+        'Minimal or no symptoms of depression',
+        'Mild depression',
+        'Moderate depression',
+        'Moderately severe depression',
+        'Severe depression'
+    ]
+descriptions = [
+        'Your results suggest minimal or no symptoms of depression.',
+        'Your results suggest that you may be experiencing some symptoms of mild depression.While your symptoms are likely not having a major impact on your life, it is important to monitor them. If you have been mildly depressed for a period of a few months, consider talking to your doctor about Dysthymia.',
+        'Your results suggest that you may be suffering from moderate depression.While this is not a diagnostic test, it might be worthwhile to start a conversation with your doctor of a trained mental health professional. Finding the right treatment plan can help you feel more like you again.',
+        'Your results suggest that you may be suffering from moderate severe depression.While this is not a diagnostic test, people who scored similar to you typically receive a diagnosis of major depression and have sought professional treatment for this disorder. It would likely be beneficial for you to consult a trained mental professional immediately.',
+        'Your results suggest that you may be suffering from moderate severe depression.While this is not a diagnostic test, people who scored similar to you typically receive a diagnosis of major depression and have sought professional treatment for this disorder. It would likely be beneficial for you to consult a trained mental professional immediately.',
+    ]
+
+def find_title(result: int):
+    id_for_title = 0
+    if result % 5 == 0:
+        id_for_title = result // 5 - 1
+    else:
+        id_for_title = result // 5
+
+    return id_for_title
+
 
 class TestSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
 
+    def create(self, validated_data):
+        result = validated_data.pop('result')
+        test = Test.objects.create(**validated_data)
+        test.save()
+        id_title = find_title(result)
+        title = titles[id_title]
+        description = descriptions[id_title]
+        test.title = title
+        test.description = description
+        return test
+
     class Meta:
         model = Test
-        fields = ('id', 'user', 'result', 'date')
+        fields = ('id', 'user', 'result', 'date', 'title', 'description')
         extra_kwargs = {
             "id": {
+                "read_only": False,
+                "required": False,
+            },
+            "title": {
+                "read_only": False,
+                "required": False,
+            },
+            "description": {
                 "read_only": False,
                 "required": False,
             },

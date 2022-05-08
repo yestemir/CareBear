@@ -24,6 +24,14 @@ class Test(models.Model):
         auto_now_add=True, help_text=_('date'),
         verbose_name=_('date')
     )
+    title = models.CharField(
+        verbose_name=_('title'), help_text=_('title'),
+        max_length=10000, default=''
+    )
+    description = models.CharField(
+        verbose_name=_('description'), help_text=_('description'),
+        max_length=10000, default=''
+    )
 
     objects: Manager
 
